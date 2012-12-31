@@ -1,0 +1,12 @@
+[user]
+[user]
+	name = Robert Siska
+	email = siska.robert@gmail.com
+[alias]
+    lpo = log --pretty=oneline --abbrev-commit --graph --decorate
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
+[core]
+	editor = vim
+[merge]
+	tool = vimdiff
