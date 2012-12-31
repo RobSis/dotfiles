@@ -1,3 +1,4 @@
+test
 " mouse stuff
 set mouse=a
 
