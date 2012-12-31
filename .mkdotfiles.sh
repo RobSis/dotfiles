@@ -23,8 +23,7 @@ echo "Copied."
 
 pushd $target
 git add -A
-git commit -am "`date +%s`"
 
-git config user.name "RobSis"
-git push
+git status
 popd
+echo "Ready for commit."

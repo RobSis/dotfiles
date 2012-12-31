@@ -87,6 +87,7 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
+   { "Pioneer", "/home/rob/Games/pioneer-alpha29-linux64/run.sh" },
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
@@ -576,5 +577,4 @@ awful.util.spawn_with_shell("evolution")
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
 awful.util.spawn_with_shell("wmname LG3D")
 awful.util.spawn_with_shell("awsetbg -A $(ls /home/rob/.wallpapers/*.* | shuf | head -n 1)")
-
 -- }}}
