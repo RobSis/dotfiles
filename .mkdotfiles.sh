@@ -25,4 +25,6 @@ pushd $target
 git add -A
 git commit -am "`date +%s`"
 
+git config user.name "RobSis"
+git push
 popd
