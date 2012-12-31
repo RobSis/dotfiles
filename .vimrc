@@ -7,6 +7,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+" eye candy
 syntax on
 set number
 set showmatch
