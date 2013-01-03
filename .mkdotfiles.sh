@@ -2,7 +2,7 @@
 
 target=~/.dotfiles
 # dot files
-files=".vimrc .bashrc .gitconfig .vimrc .vim .mplayer .Xdefaults .mkdotfiles.sh"
+files=".vimrc .bashrc .gitconfig .vimrc .vim .mplayer .Xdefaults .tmux.conf .mkdotfiles.sh"
 # directories from .config/
 configs="awesome luakit"
 

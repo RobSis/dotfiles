@@ -60,7 +60,7 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
+
 case "$TERM" in
 xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
@@ -81,19 +81,19 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
+# some more aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-
 alias timestamp='date +%s'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert='notify-send --urgency=low \
+    "$(er=$?;history|tail -n1|tr "\n" "="|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert *//'\'';echo -ne $er)"'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -107,6 +107,12 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # lcd to show list
 # mcd[0-9] save pos
 # rcd[0-9] load pos
+#------------------
+# setup/reset:
+#mkdir ~/.dirclip/
+#for file in $(seq 0 9) "main"; do
+#    echo > ~/.dirclip/$file
+#done
 export DIRCLIP=~/.dirclip
 alias mcd="pwd > $DIRCLIP/main"
 alias rcd="cd \"`cat $DIRCLIP/main`\""
@@ -114,8 +120,5 @@ for i in  `seq 0 9`; do
         alias mcd$i="pwd > "$DIRCLIP/$i
         alias rcd$i="cd \"`cat "$DIRCLIP/$i" 2>/dev/null`\""
 done
-
-
-
 alias lcd='echo -ne "~  :";cat ~/.dirclip/main;for i in `seq 0 9`; do echo -ne "$i  :"; cat $DIRCLIP/$i 2>/dev/null; done'
 alias ccd='for i in "main" `seq 0 9`; do echo > $DIRCLIP/$i; done'

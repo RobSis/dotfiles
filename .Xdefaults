@@ -4,7 +4,7 @@
 #include "/home/rob/.xthemes/dark"
 
 ! Urxvt specific
-urxvt.perl-ext-common: default,tabbed,-selection
+urxvt*perl-ext-common: default,tabbed,-selection
 urxvt*urlLauncher:   /usr/bin/google-chrome
 urxvt*matcher.button:  1
 
@@ -20,7 +20,7 @@ urxvt*scrollBar:    false
 urxvt*cursorBlink:   false
 urxvt*secondaryScroll: true
 urxvt*geometry: 80x25
-urxvt.tabbed.tabbar-fg: 3
-urxvt.tabbed.tabbar-bg: 0
-urxvt.tabbed.tab-fg:    1
-urxvt.tabbed.tab-bg:    0
+urxvt*tabbed.tabbar-fg: 3
+urxvt*tabbed.tabbar-bg: 0
+urxvt*tabbed.tab-fg:    1
+urxvtmtabbed.tab-bg:    0

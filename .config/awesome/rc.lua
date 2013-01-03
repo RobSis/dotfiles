@@ -46,7 +46,7 @@ end
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "urxvt -g 90x40"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -209,8 +209,9 @@ function batteryInfo(adapter)
     fsta:close()
 end
 
-mytimer:add_signal("timeout", function() batteryInfo("BAT0") end)
-batteryInfo("BAT0")
+batteryName = "BAT0"
+mytimer:add_signal("timeout", function() batteryInfo(batteryName) end)
+batteryInfo(batteryName)
 
 mytimer:start()
 
@@ -228,7 +229,7 @@ xmms2.next.text = highlight("&gt;") .. delimeter
 
 function updateStatus()
     spacer = " "
-    local fd = io.popen("/usr/bin/nyxmms2 current -f '${playback_status}: ${artist} - <span color=\"white\">${title}</span> (${duration})'|sed 's/^Stopped.*/Stopped/'", "r")
+    local fd = io.popen("/usr/bin/nyxmms2 current -f '${playback_status}: ${artist} - <span color=\"white\">${title}</span> (${duration})'|sed -e 's/^Stopped.*/Stopped/;s/&/&amp;/g'", "r")
     if not fd then
         do return "" end
 
@@ -409,6 +410,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey,           }, "o",     function () awful.layout.set(layouts[0]) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -429,7 +431,6 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "g",      function () awful.util.spawn("/usr/bin/google-chrome") end),
@@ -438,6 +439,10 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
+        end),
+    awful.key({ modkey,           }, "n",
+        function (c)
+            c.minimized=true
         end),
     awful.key({ modkey, "Shift"   }, ",",
         function (c)
@@ -532,6 +537,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][8] } },
     { rule = { class = "Evolution" },
       properties = { tag = tags[1][9] } },
+    { rule = { name = "ccx2" },
+      properties = { tag = tags[1][7] } },
 }
 -- }}}
 
@@ -565,16 +572,15 @@ end)
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
+
+-- Autorun
 awful.util.spawn_with_shell("gnome-settings-daemon")
 awful.util.spawn_with_shell("nm-applet")
 awful.util.spawn_with_shell("redshift -l 49:16")
-
-
--- Communication
 awful.util.spawn_with_shell("xchat")
 awful.util.spawn_with_shell("evolution")
-
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
 awful.util.spawn_with_shell("wmname LG3D")
 awful.util.spawn_with_shell("awsetbg -A $(ls /home/rob/.wallpapers/*.* | shuf | head -n 1)")
+
 -- }}}
