@@ -12,11 +12,14 @@ syntax on
 set number
 set showmatch
 set autoindent smartindent
+colorscheme marklar
 
 "paste mode
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+
+nnoremap <F12> :NERDTree<CR>
 
 filetype on
 au BufNewFile,BufRead *.ftl set filetype=ftl

@@ -46,7 +46,7 @@ end
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt -g 90x40"
+terminal = "urxvt -g 100x31"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -67,11 +67,11 @@ layouts =
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+--    awful.layout.suit.spiral,
+--    awful.layout.suit.spiral.dwindle,
+--    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen--,
+--    awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -365,6 +365,9 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+-- remember last layout, when switching to layout
+beforeFloat = nil
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
@@ -399,8 +402,11 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal .. " -e bash -c tmux") end),
+    awful.key({ modkey, "Control" }, "r",      awesome.restart),
+    awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
+
+    awful.key({ modkey,           }, "g",      function () awful.util.spawn("/usr/bin/firefox") end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -410,7 +416,16 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey,           }, "o",     function () awful.layout.set(layouts[0]) end),
+    awful.key({ modkey,           }, "o",
+              function ()
+                  if (beforeFloat == nil) then
+                      beforeFloat = awful.layout.get()
+                      awful.layout.set(layouts[0])
+                  else
+                      awful.layout.set(beforeFloat)
+                      beforeFloat = nil
+                  end
+              end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -433,7 +448,6 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "g",      function () awful.util.spawn("/usr/bin/google-chrome") end),
 --    awful.key({ modkey,           }, "F12",    function () awful.util.spawn("/home/rob/bin/saver.sh") end),
     awful.key({ modkey,           }, "m",
         function (c)
@@ -495,6 +509,7 @@ for i = 1, keynumber do
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.movetotag(tags[client.focus.screen][i])
                       end
+                      awful.tag.viewonly(tags[mouse.screen][i])
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
@@ -573,14 +588,19 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 
+autorun = false
+
+
 -- Autorun
-awful.util.spawn_with_shell("gnome-settings-daemon")
-awful.util.spawn_with_shell("nm-applet")
-awful.util.spawn_with_shell("redshift -l 49:16")
-awful.util.spawn_with_shell("xchat")
-awful.util.spawn_with_shell("evolution")
+if (autorun) then
+    awful.util.spawn_with_shell("nm-applet")
+    awful.util.spawn_with_shell("redshift -l 49:16")
+    awful.util.spawn_with_shell("xchat")
+    awful.util.spawn_with_shell("evolution")
+    awful.util.spawn_with_shell("gnome-settings-daemon")   
+end
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
 awful.util.spawn_with_shell("wmname LG3D")
-awful.util.spawn_with_shell("awsetbg -A $(ls /home/rob/.wallpapers/*.* | shuf | head -n 1)")
 
+awful.util.spawn_with_shell("awsetbg -A $(ls /home/rob/.wallpapers/*.* | shuf | head -n 1)")
 -- }}}

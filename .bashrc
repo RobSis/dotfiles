@@ -32,16 +32,18 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+########
+# Prompt
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm*) color_prompt=yes;;
+    rxvt*) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
 #force_color_prompt=yes
-
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 	# We have color support; assume it's compliant with Ecma-48
@@ -53,21 +55,17 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+#add GIT branch to prompt
+parse_git_branch_and_add_brackets() {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
+}
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1="(\[\033[32m\]\w\033[37m\])\033[0;31m\$(parse_git_branch_and_add_brackets)\n\[\033[1;30m\]\u\[\033[1;36m\]-> \[\033[0m\]"
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1="(\w)$(parse_git_branch_and_add_brackets)\n\[\u-> "
 fi
 unset color_prompt force_color_prompt
 
-
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -81,7 +79,12 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some more aliases
+export PAGER=vimpager
+alias vp='vimpager'
+export LD_LIBRARY_PATH="$HOME/.vim/gdbmgr/src:default"
+
+#########
+# Aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -89,11 +92,16 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 alias timestamp='date +%s'
+alias x2='xmms2'
+
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low \
     "$(er=$?;history|tail -n1|tr "\n" "="|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert *//'\'';echo -ne $er)"'
+
+
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -104,15 +112,12 @@ alias alert='notify-send --urgency=low \
 
 
 # dirclip
-# lcd to show list
-# mcd[0-9] save pos
-# rcd[0-9] load pos
+# lcd       show list
+# mcdN      save to pos N (0-9)
+# rcdN      load to pos N (0-9)
 #------------------
 # setup/reset:
-#mkdir ~/.dirclip/
-#for file in $(seq 0 9) "main"; do
-#    echo > ~/.dirclip/$file
-#done
+# mkdir ~/.dirclip/ && for file in $(seq 0 9) "main"; do echo > ~/.dirclip/$file; done
 export DIRCLIP=~/.dirclip
 alias mcd="pwd > $DIRCLIP/main"
 alias rcd="cd \"`cat $DIRCLIP/main`\""

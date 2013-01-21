@@ -1,18 +1,15 @@
 *background:                    #262626
 *foreground:                    #c2c2b0
 
-#include "/home/rob/.xthemes/dark"
+#include "/home/rob/.xthemes/egalike"
 
 ! Urxvt specific
 urxvt*perl-ext-common: default,tabbed,-selection
-urxvt*urlLauncher:   /usr/bin/google-chrome
-urxvt*matcher.button:  1
+urxvt.urlLauncher:   /usr/bin/google-chrome
+urxvt.matcher.button:  1
 
 !  - use a bitmap font
-urxvt*font:        -xos4-terminus-medium-*-*-*-14-*-*-*-*-*-*-*
-urxvt*boldFont:    -xos4-terminus-bold-*-*-*-14-*-*-*-*-*-*-*
-!  - use xft for drawing fonts
-!urxvt*font:       xft:Terminus:8
+urxvt*font:        terminus-14
 !  - cursor
 urxvt*cursorColor: #DCDCCC
 urxvt*saveLines:    65535
