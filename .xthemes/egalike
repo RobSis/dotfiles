@@ -2,8 +2,10 @@
 URxvt*color0:      #555555
 URxvt*color8:      #888888
 !red
-URxvt*color1:      #CC0000
-URxvt*color9:      #EF2929
+!URxvt*color1:      #CC0000
+!URxvt*color9:      #EF2929
+URxvt*color1:      #14B2B2
+URxvt*color9:     #34E2E2
 !green
 URxvt*color2:      #4E9A06
 URxvt*color10:     #8AE234

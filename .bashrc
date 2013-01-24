@@ -38,6 +38,7 @@ fi
 case "$TERM" in
     xterm*) color_prompt=yes;;
     rxvt*) color_prompt=yes;;
+    screen*) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -60,9 +61,9 @@ parse_git_branch_and_add_brackets() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
 }
 if [ "$color_prompt" = yes ]; then
-    PS1="(\[\033[32m\]\w\033[37m\])\033[0;31m\$(parse_git_branch_and_add_brackets)\n\[\033[1;30m\]\u\[\033[1;36m\]-> \[\033[0m\]"
+    PS1="┌─\[\033[34m\][\w]\033[0m\]\033[0;31m\$(parse_git_branch_and_add_brackets)\033[0m\]\n└─[\u]╼ "
 else
-    PS1="(\w)$(parse_git_branch_and_add_brackets)\n\[\u-> "
+    PS1="┌─[\w]\$(parse_git_branch_and_add_brackets)\n└─[\u]╼ "
 fi
 unset color_prompt force_color_prompt
 

@@ -3,20 +3,26 @@
 
 #include "/home/rob/.xthemes/egalike"
 
-! Urxvt specific
-urxvt*perl-ext-common: default,tabbed,-selection
-urxvt.urlLauncher:   /usr/bin/google-chrome
-urxvt.matcher.button:  1
+!urxvt*transparent: true
+!urxvt*shading: 15
 
-!  - use a bitmap font
-urxvt*font:        terminus-14
-!  - cursor
-urxvt*cursorColor: #DCDCCC
-urxvt*saveLines:    65535
-urxvt*scrollBar:    false
-urxvt*cursorBlink:   false
-urxvt*secondaryScroll: true
-urxvt*geometry: 80x25
+! Urxvt specific
+urxvt*perl-lib:                 /usr/lib/urxvt/perl
+urxvt*perl-ext-common:          default,matcher,tabbed,-selection
+urxvt*urlLauncher:              /usr/bin/firefox
+urxvt*matcher.button:           1
+
+urxvt*font:                     terminus-12
+urxvt*cursorColor:              #DCDCCC
+
+urxvt*loginShell:               true
+urxvt*urgentOnBell:             true
+urxvt*saveLines:                65535
+urxvt*scrollBar:                false
+urxvt*cursorBlink:              false
+urxvt*secondaryScroll:          true
+urxvt*geometry:                 80x25
+
 urxvt*tabbed.tabbar-fg: 3
 urxvt*tabbed.tabbar-bg: 0
 urxvt*tabbed.tab-fg:    1

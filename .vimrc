@@ -21,5 +21,9 @@ set showmode
 
 nnoremap <F12> :NERDTree<CR>
 
+if has('gui_running')
+  colorscheme wombat
+endif
+
 filetype on
 au BufNewFile,BufRead *.ftl set filetype=ftl
