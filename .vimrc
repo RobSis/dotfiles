@@ -14,6 +14,9 @@ set showmatch
 set autoindent smartindent
 colorscheme marklar
 
+nnoremap K :tabnext<CR>
+nnoremap J :tabprevious<CR>
+
 "paste mode
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -23,6 +26,7 @@ nnoremap <F12> :NERDTree<CR>
 
 if has('gui_running')
   colorscheme wombat
+  set guioptions -=T
 endif
 
 filetype on

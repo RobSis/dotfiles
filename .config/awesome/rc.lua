@@ -76,13 +76,16 @@ layouts =
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+  names  = { 1, 2, 3, 4, 5, 6, "7:music", "8:irc", "9:mail"},
+  layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], 
+             layouts[1], layouts[4], layouts[4], layouts[1]}
+} 
 for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, "7:music", "8:irc", "9:mail"}, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
+
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -407,6 +410,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
 
     awful.key({ modkey,           }, "g",      function () awful.util.spawn("/usr/bin/firefox") end),
+    awful.key({ modkey,           }, "e",      function () awful.util.spawn("/usr/bin/gvim") end),
+   
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -536,7 +541,11 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons },
+    -- open all new windows as slaves  
+      callback = awful.client.setslave },
+
+    -- perma-floaters
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class ="Minetest" },
@@ -545,14 +554,13 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+
+    -- autorun
     { rule = { class = "Xchat" },
       properties = { tag = tags[1][8] } },
     { rule = { class = "Evolution" },
       properties = { tag = tags[1][9] } },
-    { rule = { name = "ccx2" },
+    { rule = { name = "nymp" },
       properties = { tag = tags[1][7] } },
 }
 -- }}}
@@ -597,7 +605,8 @@ if (autorun) then
     awful.util.spawn_with_shell("redshift -l 49:16")
     awful.util.spawn_with_shell("xchat")
     awful.util.spawn_with_shell("evolution")
-    awful.util.spawn_with_shell("gnome-settings-daemon")   
+    awful.util.spawn_with_shell("gnome-settings-daemon")
+    awful.util.spawn_with_shell("urxvt -e nymp")
 end
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
 awful.util.spawn_with_shell("wmname LG3D")

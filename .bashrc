@@ -93,7 +93,9 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 alias timestamp='date +%s'
+
 alias x2='xmms2'
+alias rar='unrar'
 
 
 # Add an "alert" alias for long running commands.  Use like so:
