@@ -4,7 +4,7 @@ target=~/.dotfiles
 # dot files
 files=".vimrc .vimpagerrc .bashrc .gitconfig .vimrc .vim .mplayer .Xdefaults .xthemes .tmux.conf .mkdotfiles.sh"
 # directories from .config/
-configs="awesome luakit"
+configs="awesome"
 
 rm -Rf $target
 mkdir -p $target/
