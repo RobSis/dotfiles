@@ -77,10 +77,10 @@ layouts =
 
 -- {{{ Tags
 tags = {
-  names  = { 1, 2, 3, 4, 5, 6, "7:music", "8:irc", "9:mail"},
+  names  = { 1, 2, 3, 4, 5, 6,  "7:music", "8:irc", "9:mail"},
   layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], 
              layouts[1], layouts[4], layouts[4], layouts[1]}
-} 
+}
 for s = 1, screen.count() do
     tags[s] = awful.tag(tags.names, s, tags.layout)
 end
@@ -555,13 +555,13 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
 
-    -- autorun
-    { rule = { class = "Xchat" },
+    -- sticky
+    { rule = { name = "nymp" },       -- music
+      properties = { tag = tags[1][7] } },  
+    { rule = { name = "irssi" },      -- irc
       properties = { tag = tags[1][8] } },
-    { rule = { class = "Evolution" },
+    { rule = { class = "Evolution" }, -- mail
       properties = { tag = tags[1][9] } },
-    { rule = { name = "nymp" },
-      properties = { tag = tags[1][7] } },
 }
 -- }}}
 
@@ -598,15 +598,14 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 
 autorun = true
 
-
 -- Autorun
 if (autorun) then
     awful.util.spawn_with_shell("nm-applet")
     awful.util.spawn_with_shell("redshift -l 49:16")
-    awful.util.spawn_with_shell("xchat")
     awful.util.spawn_with_shell("evolution")
     awful.util.spawn_with_shell("gnome-settings-daemon")
     awful.util.spawn_with_shell("urxvt -e nymp")
+    awful.util.spawn_with_shell("urxvt -e irssi")
 end
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
 awful.util.spawn_with_shell("wmname LG3D")

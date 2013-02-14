@@ -15,14 +15,17 @@ set number
 set showmatch
 set autoindent smartindent
 
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
-
 colorscheme marklar
 if has('gui_running')
   colorscheme wombat
   set guioptions -=T
 endif
+
+filetype on
+au BufNewFile,BufRead *.ftl set filetype=ftl
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 
 
 " mappings
@@ -36,5 +39,4 @@ set showmode
 nnoremap <F12> :NERDTree<CR>
 
 
-filetype on
-au BufNewFile,BufRead *.ftl set filetype=ftl
+
