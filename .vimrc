@@ -1,3 +1,4 @@
+
 " mouse stuff
 set mouse=a
 
@@ -14,6 +15,7 @@ syntax on
 set number
 set showmatch
 set autoindent smartindent
+set nocompatible
 
 colorscheme marklar
 if has('gui_running')
@@ -21,8 +23,16 @@ if has('gui_running')
   set guioptions -=T
 endif
 
-filetype on
+" vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'scrooloose/nerdtree'
+Bundle 'othree/xml.vim'
+
+filetype plugin indent on
 au BufNewFile,BufRead *.ftl set filetype=ftl
+au BufNewFile,BufRead *.xml set filetype=xml
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
@@ -37,6 +47,3 @@ set pastetoggle=<F2>
 set showmode
 
 nnoremap <F12> :NERDTree<CR>
-
-
-

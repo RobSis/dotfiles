@@ -362,9 +362,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 -- }}}
 
@@ -556,7 +554,7 @@ awful.rules.rules = {
       properties = { floating = true } },
 
     -- sticky
-    { rule = { name = "nymp" },       -- music
+    { rule = { name = "Abraca" },       -- music
       properties = { tag = tags[1][7] } },  
     { rule = { name = "irssi" },      -- irc
       properties = { tag = tags[1][8] } },
@@ -604,7 +602,7 @@ if (autorun) then
     awful.util.spawn_with_shell("redshift -l 49:16")
     awful.util.spawn_with_shell("evolution")
     awful.util.spawn_with_shell("gnome-settings-daemon")
-    awful.util.spawn_with_shell("urxvt -e nymp")
+    awful.util.spawn_with_shell("abraca")
     awful.util.spawn_with_shell("urxvt -e irssi")
 end
 -- Pretend, we're re-parenting wm. http://awesome.naquadah.org/wiki/Problems_with_Java
