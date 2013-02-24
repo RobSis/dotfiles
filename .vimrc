@@ -33,9 +33,7 @@ Bundle 'othree/xml.vim'
 filetype plugin indent on
 au BufNewFile,BufRead *.ftl set filetype=ftl
 au BufNewFile,BufRead *.xml set filetype=xml
-
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+au BufNewFile,BufRead *.py highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
 
 
 " mappings

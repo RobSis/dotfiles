@@ -97,6 +97,14 @@ alias timestamp='date +%s'
 alias x2='xmms2'
 alias rar='unrar'
 
+function __hl {
+    default="bash"
+    if [ -n "$1" ]; then
+        default=$1
+    fi
+    source-highlight -f esc -s $default
+}
+alias hl='__hl'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
