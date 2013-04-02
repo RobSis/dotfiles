@@ -16,6 +16,8 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+stty -ixon
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -61,9 +63,9 @@ parse_git_branch_and_add_brackets() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
 }
 if [ "$color_prompt" = yes ]; then
-    PS1="┌─\[\033[34m\][\w]\033[0m\]\033[0;31m\$(parse_git_branch_and_add_brackets)\033[0m\]\n└─[\u]╼ "
+    PS1="┌─\[\033[34m\][\w]\033[0m\]\033[0;31m\$(parse_git_branch_and_add_brackets)\033[0m\]\n└─[\u] "
 else
-    PS1="┌─[\w]\$(parse_git_branch_and_add_brackets)\n└─[\u]╼ "
+    PS1="┌─[\w]\$(parse_git_branch_and_add_brackets)\n└─[\u] "
 fi
 unset color_prompt force_color_prompt
 
@@ -92,7 +94,7 @@ alias l='ls -CF'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias timestamp='date +%s'
+alias timestamp='dt=$(date +%s);echo $dt;echo $dt >&2'
 
 alias x2='xmms2'
 alias rar='unrar'

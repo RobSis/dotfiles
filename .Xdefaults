@@ -1,8 +1,12 @@
-*background:                    #262626
-*foreground:                    #c2c2b0
+!*background:                    #262626
+!*foreground:                    #c2c2b0
 
-#include "/home/rob/.xthemes/egalike"
+#include "/home/rob/.xthemes/solarized"
 
+urxvt*keysym.C-S-Tab: 33[27;5;9~
+!urxvt.iso14755_52: False
+urxvt*depth: 32
+urxvt*background: rgba:2222/2222/2222/eeee
 !urxvt*transparent: true
 !urxvt*shading: 15
 
