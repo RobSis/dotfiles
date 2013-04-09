@@ -26,12 +26,8 @@ if has('gui_running')
   set guioptions=mt
 endif
 
-" vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'scrooloose/nerdtree'
-Bundle 'othree/xml.vim'
+" pathogen
+execute pathogen#infect()
 
 command! Hi80 highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
 
