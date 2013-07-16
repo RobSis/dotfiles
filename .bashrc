@@ -110,7 +110,7 @@ alias hl='__hl'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low \
+alias alert='notify-send --urgency=critical \
     "$(er=$?;history|tail -n1|tr "\n" "="|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert *//'\'';echo -ne $er)"'
 
 
