@@ -62,4 +62,7 @@ map <Esc>s :w<CR>
 imap <Esc>s  <C-O>:w<CR>
 
 set pastetoggle=<F2>
+set clipboard=unnamed
+
+nmap ZA :qall!<CR>
 nnoremap <F12> :NERDTree<CR>
