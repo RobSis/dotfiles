@@ -1,0 +1,9 @@
+:nmap J gT
+:nmap K gt
+:nmap j 3<Down>
+:nmap k 3<Up>
+
+:colorscheme ubuntu
+
+:set hintkeys=hjklasdfgyuiopqwertnmzxcvb
+:set activate=

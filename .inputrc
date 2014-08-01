@@ -1,0 +1,5 @@
+$include /etc/inputrc
+
+set show-all-if-ambiguous on
+
+"\b": backward-kill-word

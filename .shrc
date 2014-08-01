@@ -1,0 +1,83 @@
+# Shell-independent configuration
+# A place for setting environment and aliases
+
+# Disable START/STOP flow control
+stty -ixon -ixoff
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+fi
+
+
+# Coloured man pages
+export PAGER=less
+man() {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+    LESS_TERMCAP_me=$'\E[0m' \
+    LESS_TERMCAP_se=$'\E[0m' \
+    LESS_TERMCAP_so=$'\E[38;5;246m' \
+    LESS_TERMCAP_ue=$'\E[0m' \
+    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+    man "$@"
+}
+
+# aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias xi='xclip -i'
+alias xo='xclip -o'
+alias aux='ps aux | grep'
+
+alias gh="nl $HISTFILE | grep"
+
+# debian aliases
+alias as='apt-cache search'
+alias ai='apt-get install'
+alias ar='apt-get remove'
+
+# Highlight output of commands
+# Usage: command | hl <language>
+function __hl {
+    default="bash"
+    if [ -n "$1" ]; then
+        default=$1
+    fi
+    source-highlight -f esc -s $default
+}
+alias hl='__hl'
+
+function cd() {
+    builtin cd "$@" && ls --color=auto
+}
+
+# Dirclip
+# Usage: lcd - list slots
+#        mcd<Number> - save current dir to slot
+#        rcd<Numbed> - go to dir saved at slot
+#        ccd - clear all slots
+# where <Number> is nothing or 0-9
+dir_clip()
+{
+    export DIRCLIP=~/.dirclip
+    alias mcd="pwd > $DIRCLIP/main && dir_clip"
+    alias rcd="dir_clip && cd \"`cat $DIRCLIP/main`\""
+    for i in  `seq 0 9`; do
+            alias mcd$i="pwd > $DIRCLIP/$i && dir_clip"
+            alias rcd$i="dir_clip && cd \"`cat "$DIRCLIP/$i" 2>/dev/null`\""
+    done
+    alias lcd='echo -ne "~  :";cat ~/.dirclip/main;for i in `seq 0 9`; do echo -ne "$i  :"; cat $DIRCLIP/$i 2>/dev/null; done'
+    alias ccd='for i in "main" `seq 0 9`; do echo > $DIRCLIP/$i; done'
+}
+dir_clip
+

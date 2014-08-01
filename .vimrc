@@ -12,18 +12,31 @@ set expandtab
 
 " eye candy
 syntax on
+set background=dark
 set number
+set relativenumber
 set showmatch
 set autoindent smartindent
-set nocompatible
 set showmode
 set listchars=tab:▸\ ,trail:·
 set list
 
+" statusline
+set laststatus=2
+"set statusline=%<%f
+"set statusline+=\ [%{getcwd()}]
+"set statusline+=%=%-14.(%l,%c%V%)\ %p%%
+" powerline
+set noshowmode
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+
+
 colorscheme desert
 if has('gui_running')
   colorscheme wombat
-  set guioptions=mt
+  set guioptions=
 endif
 
 " pathogen
@@ -39,7 +52,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 if has('autocmd')
-  autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+  "autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
   filetype plugin indent on
   au BufNewFile,BufRead *.ftl set filetype=ftl
@@ -66,3 +79,4 @@ set clipboard=unnamed
 
 nmap ZA :qall!<CR>
 nnoremap <F12> :NERDTree<CR>
+

@@ -12,11 +12,11 @@ urxvt*background: rgba:2222/2222/2222/eeee
 
 ! Urxvt specific
 urxvt*perl-lib:                 /usr/lib/urxvt/perl
-urxvt*perl-ext-common:          default,matcher,tabbed,-selection
+urxvt*perl-ext-common:          default,matcher,-selection
 urxvt*urlLauncher:              /usr/bin/firefox
 urxvt*matcher.button:           1
 
-urxvt*font:                     terminus-12
+urxvt*font: terminus-12,xft:Inconsolata\ for\ Powerline:pixelsize=12
 urxvt*cursorColor:              #DCDCCC
 
 urxvt*loginShell:               true

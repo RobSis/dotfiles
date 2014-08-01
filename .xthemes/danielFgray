@@ -1,0 +1,63 @@
+!Xft.autohint:  0
+!Xft.antialias: 0
+!Xft.hinting:   true
+!Xft.hintstyle: hintslight
+!Xft.dpi:       96
+!Xft.rgba:      rgb
+!Xft.lcdfilter: lcddefault
+
+Xcursor.theme: Black-DMZ-AA
+Xcursor.size:  22
+
+URxvt*scrollBar:        false
+URxvt*imLocale:         en_US.UTF-8
+URxvt*loginShell:       true
+URxvt*saveLines:        512
+URxvt*geometry:         90x25
+URxvt*boldMode:         true
+URxvt*inheritPixmap:    false
+URxvt*xftAntialias:     true
+URxvt*jumpScroll:       false
+URxvt*tintColor:        white
+URxvt*internalBorder:   2
+URxvt*borderless:       true
+URxvt.perl-ext-common:  default,matcher
+URxvt.url-launcher:     /usr/bin/firefox
+URxvt.matcher.button:   1
+
+!*font:             xft:DejaVu Sans Mono:pixelsize=10
+*font:              -lucy-tewi-medium-r-normal--11-90-75-75-p-58-iso10646-1
+*boldFont:          -lucy-tewi-medium-r-normal--11-90-75-75-p-58-iso10646-1
+!*font:             xft:Tewi:regular:size=11
+!*imFont:           xft:Tewi:regular:size=11
+!*boldFont:         xft:Tewi:bold:size=11
+!*italicFont:       xft:Tewi:italic:size=11
+!*boldItalicFont:   xft:Tewi:bold:italic:size=11
+
+*background: #292929
+*foreground: #dedede
+
+!black
+*color0:  #363636
+*color8:  #828282
+!red
+*color1:  #d96468
+*color9:  #d98f93
+!green
+*color2:  #a2d964
+*color10: #b8d98f
+!yellow
+*color3:  #d9c964
+*color11: #d9cf8f
+!blue
+*color4:  #0390c4
+*color12: #3d84cf
+!magenta
+*color5:  #9a64d9
+*color13: #b08fd9
+!cyan
+*color6:  #64d9d5
+*color14: #8fd9d5
+!white
+*color7:  #989898
+*color15: #C5C5C5
