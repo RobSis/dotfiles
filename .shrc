@@ -14,19 +14,26 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
 fi
 
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$PATH:$HOME/.local/bin"
+fi
+
 
 # Coloured man pages
 export PAGER=less
-man() {
-    env LESS_TERMCAP_mb=$'\E[01;31m' \
-    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-    LESS_TERMCAP_me=$'\E[0m' \
-    LESS_TERMCAP_se=$'\E[0m' \
-    LESS_TERMCAP_so=$'\E[38;5;246m' \
-    LESS_TERMCAP_ue=$'\E[0m' \
-    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-    man "$@"
+man-color() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            /usr/bin/man "$@"
 }
+alias man='man-color'
+
 
 # aliases
 alias ll='ls -alF'
@@ -39,12 +46,20 @@ alias xi='xclip -i'
 alias xo='xclip -o'
 alias aux='ps aux | grep'
 
-alias gh="nl $HISTFILE | grep"
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
-# debian aliases
-alias as='apt-cache search'
-alias ai='apt-get install'
-alias ar='apt-get remove'
+alias a-c='apt-cache'
+alias a-g='apt-get'
+
+alias gh="nl $HISTFILE | grep"
+alias g='git'
+alias vi='vim'
+
+alias ys='yum search'
+alias yi='sudo yum install'
 
 # Highlight output of commands
 # Usage: command | hl <language>
@@ -61,23 +76,7 @@ function cd() {
     builtin cd "$@" && ls --color=auto
 }
 
-# Dirclip
-# Usage: lcd - list slots
-#        mcd<Number> - save current dir to slot
-#        rcd<Numbed> - go to dir saved at slot
-#        ccd - clear all slots
-# where <Number> is nothing or 0-9
-dir_clip()
-{
-    export DIRCLIP=~/.dirclip
-    alias mcd="pwd > $DIRCLIP/main && dir_clip"
-    alias rcd="dir_clip && cd \"`cat $DIRCLIP/main`\""
-    for i in  `seq 0 9`; do
-            alias mcd$i="pwd > $DIRCLIP/$i && dir_clip"
-            alias rcd$i="dir_clip && cd \"`cat "$DIRCLIP/$i" 2>/dev/null`\""
-    done
-    alias lcd='echo -ne "~  :";cat ~/.dirclip/main;for i in `seq 0 9`; do echo -ne "$i  :"; cat $DIRCLIP/$i 2>/dev/null; done'
-    alias ccd='for i in "main" `seq 0 9`; do echo > $DIRCLIP/$i; done'
-}
-dir_clip
-
+# include .shrc-magnolia if it exists
+if [ -f "$HOME/.shrc-magnolia" ]; then
+. "$HOME/.shrc-magnolia"
+fi

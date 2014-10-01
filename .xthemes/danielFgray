@@ -21,9 +21,6 @@ URxvt*jumpScroll:       false
 URxvt*tintColor:        white
 URxvt*internalBorder:   2
 URxvt*borderless:       true
-URxvt.perl-ext-common:  default,matcher
-URxvt.url-launcher:     /usr/bin/firefox
-URxvt.matcher.button:   1
 
 !*font:             xft:DejaVu Sans Mono:pixelsize=10
 *font:              -lucy-tewi-medium-r-normal--11-90-75-75-p-58-iso10646-1

@@ -1,33 +1,37 @@
 !*background:                    #262626
 !*foreground:                    #c2c2b0
 
-#include "/home/rob/.xthemes/solarized"
+#include "/home/rsiska/.xthemes/danielFgray"
 
-urxvt*keysym.C-S-Tab: 33[27;5;9~
+URxvt.keysym.C-S-Tab: 33[27;5;9~
 !urxvt.iso14755_52: False
-urxvt*depth: 32
-urxvt*background: rgba:2222/2222/2222/eeee
-!urxvt*transparent: true
+URxvt.depth: 32
+URxvt.background: rgba:2222/2222/2222/eeee
 !urxvt*shading: 15
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7
 
 ! Urxvt specific
-urxvt*perl-lib:                 /usr/lib/urxvt/perl
-urxvt*perl-ext-common:          default,matcher,-selection
-urxvt*urlLauncher:              /usr/bin/firefox
-urxvt*matcher.button:           1
+URxvt.perl-lib:                 /usr/lib/urxvt/perl
+URxvt.perl-ext-common:          default,matcher,-selection
+URxvt.urlLauncher:             /etc/alternatives/google-chrome
+URxvt.matcher.button:           1
 
-urxvt*font: terminus-12,xft:Inconsolata\ for\ Powerline:pixelsize=12
-urxvt*cursorColor:              #DCDCCC
+URxvt.font:                     xft:terminus:pixelsize=12:antialias=false
+URxvt.boldFont:                 xft:terminus:bold:pixelsize=12:antialias=false
+URxvt.cursorColor:              #DCDCCC
 
-urxvt*loginShell:               true
-urxvt*urgentOnBell:             true
-urxvt*saveLines:                65535
-urxvt*scrollBar:                false
-urxvt*cursorBlink:              false
-urxvt*secondaryScroll:          true
-urxvt*geometry:                 80x25
+URxvt.loginShell:               true
+URxvt.urgentOnBell:             true
+URxvt.saveLines:                65535
+URxvt.scrollBar:                false
+URxvt.cursorBlink:              false
+URxvt.secondaryScroll:          true
+URxvt.geometry:                 80x25
+URxvt.buffered:                 false
 
-urxvt*tabbed.tabbar-fg: 3
-urxvt*tabbed.tabbar-bg: 0
-urxvt*tabbed.tab-fg:    1
-urxvtmtabbed.tab-bg:    0
+!urxvt*tabbed.tabbar-fg: 3
+!urxvt*tabbed.tabbar-bg: 0
+!urxvt*tabbed.tab-fg:    1
+!urxvtmtabbed.tab-bg:    0

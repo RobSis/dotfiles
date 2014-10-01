@@ -1,20 +1,41 @@
 ### Keys
 # Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
 setopt glob_complete
 
-fpath=(~/.zsh/completions $fpath)
+fpath=($fpath ~/.zsh/completions)
 
-export WORDCHARS='*?-_[]~=&;!#$%^(){}'
-bindkey '^[^[[C' forward-word
-bindkey '^[^[[D' backward-word
+bindkey -e
+# ctrl + arrows/backspace
+export WORDCHARS='*?[]~=&;!#$%^(){}'
+bindkey '^[OC' forward-word
+bindkey '^[OD' backward-word
+bindkey '^[[C' forward-char
+bindkey '^[[D' backward-char
 bindkey '^H'   backward-delete-word
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
+bindkey '^[[3~' delete-char
+# shift + tab
 bindkey '^[[Z' reverse-menu-complete
+
+
+### Antigen
+if [ -f "$HOME/.zsh/antigen/antigen.zsh" ]; then
+  source "$HOME/.zsh/antigen/antigen.zsh"
+fi
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle robbyrussell/oh-my-zsh plugins/mvn
+antigen bundle robbyrussell/oh-my-zsh plugins/dircycle
+antigen bundle olivierverdier/zsh-git-prompt
+antigen bundle RobSis/zsh-completion-generator
+
+antigen apply
+
 
 ### Completion
 autoload -Uz compinit
 compinit
-
 set completeinword
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -30,6 +51,7 @@ zstyle ':completion:*' menu select=long
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
@@ -37,12 +59,9 @@ zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
 
 
 ### Prompt
-# https://github.com/olivierverdier/zsh-git-prompt
 autoload -Uz promptinit
 promptinit
-if [ -f "$HOME/.zsh/zsh-git-prompt/zshrc.sh" ]; then
-  source "$HOME/.zsh/zsh-git-prompt/zshrc.sh"
-fi
+
 export PROMPT='%B%n %~%b$(git_super_status) %# '
 
 
@@ -53,20 +72,7 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 setopt histignorealldups
 
-# history search
-if [ -f "$HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
-  . "$HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
-  # bind UP and DOWN arrow keys
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-fi
-
-# mvn helper
-if [ -f "$HOME/.zsh/zsh-mvn/mvn.plugin.zsh" ]; then
-  source "$HOME/.zsh/zsh-mvn/mvn.plugin.zsh"
-fi
-
-# include .shrc if it exists
+# include shell-independent ~/.shrc if it exists
 if [ -f "$HOME/.shrc" ]; then
   source "$HOME/.shrc"
 fi
