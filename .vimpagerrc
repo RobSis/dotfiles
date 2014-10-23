@@ -1,5 +1,0 @@
-set mouse=a
-nnoremap i <nop>
-
-set ft=git
-syntax on
