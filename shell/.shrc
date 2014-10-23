@@ -1,0 +1,87 @@
+# Shell-independent configuration
+# A place for setting environment and aliases
+
+# Disable START/STOP flow control
+stty -ixon -ixoff
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+fi
+
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$PATH:$HOME/.local/bin"
+fi
+
+
+# Coloured man pages (in less)
+export PAGER=less
+man-color() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            /usr/bin/man "$@"
+}
+alias man='man-color'
+
+
+# aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias df='df -h'
+alias xi='xclip -i'
+alias xo='xclip -o'
+alias aux='ps aux | grep'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# debian
+alias a-c='apt-cache'
+alias a-g='apt-get'
+
+# fedora
+alias ys='yum search'
+alias yi='sudo yum install'
+
+alias gh="nl $HISTFILE | grep"
+alias g='git'
+
+alias vim='vimx'
+alias vi='vim'
+
+# Highlight output of commands
+# Usage: command | hl <language>
+function __hl {
+    default="bash"
+    if [ -n "$1" ]; then
+        default=$1
+    fi
+    source-highlight -f esc -s $default
+}
+alias hl='__hl'
+
+function cd() {
+    builtin cd "$@" && ls --color=auto
+}
+
+# include .shrc-magnolia if it exists
+if [ -f "$HOME/.shrc-magnolia" ]; then
+. "$HOME/.shrc-magnolia"
+fi

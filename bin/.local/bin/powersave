@@ -1,0 +1,8 @@
+#!/bin/bash
+gov=$1
+if [ -z "$1" ]; then
+    gov=powersave
+fi
+for i in `seq 0 3`; do
+    sudo cpufreq-set -c $i -g $gov
+done

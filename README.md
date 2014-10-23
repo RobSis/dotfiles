@@ -1,4 +1,6 @@
 dotfiles
 ========
 
-dotfiles for synchronization
+dotfiles for synchronization.
+
+Powered by GNU Stow.
