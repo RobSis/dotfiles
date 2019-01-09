@@ -28,7 +28,7 @@ antigen bundle olivierverdier/zsh-git-prompt
 antigen bundle RobSis/zsh-completion-generator
 #antigen bundle RobSis/zsh-reentry-hook
 
-#antigen apply
+antigen apply
 
 ### Completion
 autoload -Uz compinit
