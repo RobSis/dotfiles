@@ -1,10 +1,11 @@
-*background: #002b36
+URxvt.background: rgba:3333/3333/3333/dddd
+*background: #3f3f3f
 *foreground: #c2c2b0
 *cursorColor: #93a1a1
 *pointerColorBackground: #586e75
 *pointerColorForeground: #93a1a1
 
-*color0: #073642
+*color0: #3f3f3f
 *color1: #dc322f
 *color2: #859900
 *color3: #b58900

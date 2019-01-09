@@ -1,26 +1,28 @@
 !*background:                    #262626
 !*foreground:                    #c2c2b0
 
-#include "/home/rsiska/.xthemes/danielFgray"
+#include "/home/rsiska/.xthemes/solarized"
 
+
+!!! Urxvt specific settings
 URxvt.keysym.C-S-Tab: 33[27;5;9~
-!urxvt.iso14755_52: False
+! send xterm arrow keys
+URxvt.keysym.M-Down:        \033[1;3B
+URxvt.keysym.M-Up:          \033[1;3A
+URxvt.keysym.M-Left:        \033[1;3D
+URxvt.keysym.M-Right:       \033[1;3C
 URxvt.depth: 32
-URxvt.background: rgba:2222/2222/2222/eeee
-!urxvt*shading: 15
-URxvt.colorIT:      #87af5f
-URxvt.colorBD:      #d7d7d7
-URxvt.colorUL:      #87afd7
+!URxvt.colorIT:      #87af5f
+!URxvt.colorBD:      #d7d7d7
+!URxvt.colorUL:      #87afd7
 
-! Urxvt specific
-URxvt.perl-lib:                 /usr/lib/urxvt/perl
 URxvt.perl-ext-common:          default,matcher,-selection
 URxvt.urlLauncher:              /etc/alternatives/google-chrome
 URxvt.matcher.button:           1
 URxvt.matcher.pattern:          ~?([a-z_][a-z0-9_]{0,30})?/([^\0\n\ !$`&*()+]|\\\ )+\b/?
 
-URxvt.font:                     xft:terminus:pixelsize=12:antialias=false
-URxvt.boldFont:                 xft:terminus:bold:pixelsize=12:antialias=false
+URxvt*font:                     xft:Monospace:pixelsize=22,xft:Inconsolata for Powerline:pixelsize=22:antialias=true
+URxvt*boldFont:                 xft:Monospace:pixelsize=22,xft:Inconsolata Bold for Powerline:pixelsize=22:antialias=true
 URxvt.cursorColor:              #DCDCCC
 
 URxvt.loginShell:               true
@@ -32,7 +34,16 @@ URxvt.secondaryScroll:          true
 URxvt.geometry:                 80x25
 URxvt.buffered:                 false
 
-!urxvt*tabbed.tabbar-fg: 3
-!urxvt*tabbed.tabbar-bg: 0
-!urxvt*tabbed.tab-fg:    1
-!urxvtmtabbed.tab-bg:    0
+URxvt.keysym.C-Up:     perl:font-size:increase
+URxvt.keysym.C-Down:   perl:font-size:decrease
+URxvt.keysym.C-S-Up:   perl:font-size:incglobal
+URxvt.keysym.C-S-Down: perl:font-size:decglobal
+URxvt.keysym.C-equal:  perl:font-size:reset
+URxvt.keysym.C-slash:  perl:font-size:show
+
+rofi.separator-style: solid
+rofi.hide-scrollbar: true
+rofi.padding: 30
+rofi.lines: 6
+rofi.width: 30
+rofi.font: Terminus 18
