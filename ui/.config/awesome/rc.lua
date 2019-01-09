@@ -131,7 +131,7 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     -- Take a screenshot
-    awful.key({ altkey }, "p", function() os.execute("scrot") end,
+    awful.key({ altkey }, "p", function () awful.spawn("screenshot") end,
               {description="take screenshot", group = "screen"}),
     -- Hotkeys
     awful.key({ modkey,           }, "i",      hotkeys_popup.show_help,

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+timestamp="$(date +%Y%m%d%H%M%S)"
+targetbase="$HOME/.screenshots"
+mkdir -p $targetbase
+[ -d $targetbase ] || exit 1
+scrot $targetbase/$timestamp.png
+THUMBNAIL=/tmp/$RANDOM.jpg
+convert -resize 100x100 $targetbase/$timestamp.png $THUMBNAIL
+notify-send -i $THUMBNAIL "Screenshot taken"
+rm -f $THUMBNAIL
