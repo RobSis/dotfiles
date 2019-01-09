@@ -1,18 +1,16 @@
 # Magnolia related stuff
 
-export SVN_EDITOR=vim
-alias ftls='find . -name "*.ftl" -print'
-alias javas='find . -name "*.java" -print'
-alias jsps='find . -name "*.jsp" -print'
-alias poms='find . -name pom.xml -print'
+alias license='cat ~/.mag-license | xclip -i'
 
-alias START='./bin/magnolia_control.sh start && tail -f logs/catalina.out|hl javalog'
-alias STOP='./bin/magnolia_control.sh stop && tail -f logs/catalina.out|hl javalog'
-alias mvn='mvn-color'
-alias MVN='mvn clean install'
-alias MVNfast='mvn clean install -DskipTests -Dcheckstyle.skip'
-alias mvnci='mvn clean install -DskipTests -Dcheckstyle.skip'
+alias START='touch ./bin/.installed; JAVA_OPTS="-Dmagnolia.update.auto=true" ./bin/magnolia_control.sh start --ignore-open-files-limit && tail -f logs/catalina.out'
+alias STARTwithPublic='rm -f ./bin/.installed; JAVA_OPTS="-Dmagnolia.update.auto=true" ./bin/magnolia_control.sh start --ignore-open-files-limit && tail -f logs/catalina.out'
 
+#alias mvn='mvn-color'
+alias MVN='mvn clean install ; notify-send -u critical FINISHED'
+alias MVNfast='mvn clean install -DskipTests -Dcheckstyle.skip ; notify-send -u critical FINISHED'
+alias MVNrun='mvn org.apache.tomcat.maven:tomcat7-maven-plugin:run-war'
+
+# example: re-port conf/server.xml 2 -> changes port to 28080
 re-port()
 {
     tmpfile=/tmp/report$RANDOM;
