@@ -1,7 +1,7 @@
 
 " mouse stuff
 set mouse=a
-
+set clipboard=unnamed,unnamedplus
 
 " tab stuff
 set tabstop=4
@@ -10,8 +10,9 @@ set shiftwidth=4
 set expandtab
 
 
-" eye candy
+" look & feel
 syntax on
+set timeoutlen=50 ttimeoutlen=0
 set background=dark
 set number
 set relativenumber
@@ -21,17 +22,14 @@ set showmode
 set listchars=tab:▸\ ,trail:·
 set list
 
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+
 " statusline
 set laststatus=2
-"set statusline=%<%f
-"set statusline+=\ [%{getcwd()}]
-"set statusline+=%=%-14.(%l,%c%V%)\ %p%%
-" powerline
 set noshowmode
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-
 
 colorscheme desert
 if has('gui_running')
@@ -39,10 +37,14 @@ if has('gui_running')
   set guioptions=
 endif
 
+
 " pathogen
 execute pathogen#infect()
 
+set tags+=.git/tags
+
 command! Hi80 highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
+
 
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -52,33 +54,31 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 if has('autocmd')
-  "autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+  "autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim )
 
   filetype plugin indent on
-  au BufNewFile,BufRead *.ftl set filetype=ftl
+  au BufNewFile,BufRead *.ftl set filetype=html
   au BufNewFile,BufRead *.xml set filetype=xml
   au BufNewFile,BufRead *.py Hi80
   au BufNewFile,BufRead *.qc set filetype=quakec
 
   autocmd BufWritePost *
-	\ if filereadable('tags') |
-	\	call system('ctags -a '.expand('%')) |
-	\ endif
+    \ if filereadable('tags') |
+    \   call system('ctags -a '.expand('%')) |
+    \ endif
 endif
 
 " mappings
 noremap K :tabnext<CR>
 nnoremap J :tabprevious<CR>
-nnoremap <F2> :set invpaste paste?<CR>
+
+set pastetoggle=<F2>
+"nnoremap <F2> :set invpaste paste?<CR>
 
 map <Esc>s :w<CR>
 imap <Esc>s  <C-O>:w<CR>
 
-set pastetoggle=<F2>
-set clipboard=unnamed,unnamedplus
-
 nmap ZA :qall!<CR>
-nnoremap <F12> :NERDTree<CR>
 
 " more readline-like kill word
 inoremap <C-w> <C-\><C-o>dB
@@ -86,3 +86,16 @@ inoremap <C-BS> <C-\><C-o>db
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+" https://github.com/kien/rainbow_parentheses.vim
+autocmd VimEnter * RainbowParenthesesToggle
+autocmd Syntax * RainbowParenthesesLoadRound
+autocmd Syntax * RainbowParenthesesLoadSquare
+autocmd Syntax * RainbowParenthesesLoadBraces
+autocmd VimEnter * wincmd w
+
+syntax match csvHeading /\%1l\%(\%("\zs\%([^"]\|""\)*\ze"\)\|\%(\zs[^,"]*\ze\)\)/
+highlight def link csvHeading Type
+
+" Sort words on line
+command -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
