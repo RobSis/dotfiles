@@ -21,7 +21,7 @@ shopt -s checkwinsize
 parse_git_branch_and_add_brackets() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
 }
-export PS1="\u \w\[\033[0;32m\]\$(parse_git_branch_and_add_brackets) \[\033[0m\]\$ "
+export PS1="\w\[\033[0;32m\]\$(parse_git_branch_and_add_brackets) \[\033[0m\]\$ "
 
 bind space:magic-space
 
@@ -33,3 +33,5 @@ fi
 if [ -f "/etc/bash_completion" ]; then
 . "/etc/bash_completion"
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

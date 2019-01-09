@@ -1,5 +1,6 @@
 # Shell-independent configuration
 # A place for setting environment and aliases
+PATH=$PATH:~/.local/bin/
 
 # Disable START/STOP flow control
 stty -ixon -ixoff
@@ -14,17 +15,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
 fi
 
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$PATH:$HOME/.local/bin"
-fi
-
 
 # Coloured man pages (in less)
 export PAGER=less
 man-color() {
     env \
-        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_mb=$(printf "\e[1;34m") \
+        LESS_TERMCAP_md=$(printf "\e[1;34m") \
         LESS_TERMCAP_me=$(printf "\e[0m") \
         LESS_TERMCAP_se=$(printf "\e[0m") \
         LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
@@ -33,7 +30,6 @@ man-color() {
             /usr/bin/man "$@"
 }
 alias man='man-color'
-
 
 # aliases
 alias ll='ls -alF'
@@ -46,6 +42,27 @@ alias df='df -h'
 alias xi='xclip -i'
 alias xo='xclip -o'
 alias aux='ps aux | grep'
+alias tree='tree -C'
+alias cal='cal -m'
+alias siren='notify-send -u critical DONE -t 10000'
+alias pxi="echo -n \'$PWD\' | xclip -i"
+alias trim="sed 's/^\ *//' | sed 's/\ *$//'"
+alias o='xdg-open'
+
+. /usr/share/autojump/autojump.sh
+
+alias tmux-pane-rename="tmux rename-window -t${TMUX_PANE}"
+
+#crate-digging
+alias mp3-dl='youtube-dl -x --audio-format mp3 --audio-quality 0'
+alias tmp3-dl='torify youtube-dl -x --audio-format mp3 --audio-quality 0'
+alias mp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do mp3-dl "$line"; echo "Finished."; sleep 5s; done;'
+alias tmp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do tmp3-dl "$line"; echo "Finished."; sleep 5s; done;'
+alias mostsampled='(){ grep -i "$1" ~/samples/originals| sort -n }'
+alias whosampled='(){ grep -i "$1" ~/samples/whosampled.csv }'
+playtime() {
+    date -u -d @$(sox --i -D $@ 2>/dev/null | awk '{s+=$1} END {print s}') +"%T"
+}
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -53,18 +70,21 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # debian
-alias a-c='apt-cache'
-alias a-g='apt-get'
-
-# fedora
-alias ys='yum search'
-alias yi='sudo yum install'
+alias as='apt-cache search'
+alias ai='sudo apt-get install'
 
 alias gh="nl $HISTFILE | grep"
-alias g='git'
+alias g="git"
 
-alias vim='vimx'
-alias vi='vim'
+export EDITOR='vim'
+alias vi='vim -p'
+
+alias df='df'
+alias dtrx='dtrx -n'
+
+alias appletviewer=/usr/java/jdk1.7.0_67/bin/appletviewer
+
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
 
 # Highlight output of commands
 # Usage: command | hl <language>
