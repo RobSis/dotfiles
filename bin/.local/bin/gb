@@ -1,5 +1,5 @@
 #!/bin/sh
-[ -d .git ] && {
+git rev-parse --is-inside-work-tree && {
   git diff --quiet || echo "Uncommited changes, not checked in to index";
   git diff --staged --quiet || echo "Checked in to index but not commited";
   git log --color=always \
