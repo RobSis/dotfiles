@@ -16,6 +16,8 @@ bindkey '^[[4~' end-of-line
 bindkey '^[[3~' delete-char
 # shift + tab
 bindkey '^[[Z' reverse-menu-complete
+# ctrl + . repeat last shell argument
+bindkey '^[;' copy-prev-shell-word
 
 ### Antigen
 if [ -f "$HOME/.zsh/antigen/antigen.zsh" ]; then
@@ -27,6 +29,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle olivierverdier/zsh-git-prompt
 antigen bundle RobSis/zsh-completion-generator
 #antigen bundle RobSis/zsh-reentry-hook
+antigen bundle momo-lab/zsh-abbrev-alias
 
 antigen apply
 
@@ -83,13 +86,5 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#export NVM_DIR="/home/rsiska/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# mgnl-tabcompletion-start
-# load mgnl command tab completion
-autoload bashcompinit
-bashcompinit
-# mgnl-tabcompletion-end
-
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+abbrev-alias -g FA="for i in *.*; do"
+abbrev-alias -g FZ="| fzf"
