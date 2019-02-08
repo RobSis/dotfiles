@@ -1,42 +1,37 @@
-!*background:                    #262626
-!*foreground:                    #c2c2b0
-
+! == color theme
 #include "/home/rsiska/.xthemes/solarized"
 
+! Xft.dpi: 192
 
-!!! Urxvt specific settings
-URxvt.keysym.C-S-Tab: 33[27;5;9~
-! send xterm arrow keys
-URxvt.keysym.M-Down:        \033[1;3B
-URxvt.keysym.M-Up:          \033[1;3A
-URxvt.keysym.M-Left:        \033[1;3D
-URxvt.keysym.M-Right:       \033[1;3C
-URxvt.depth: 32
-!URxvt.colorIT:      #87af5f
-!URxvt.colorBD:      #d7d7d7
-!URxvt.colorUL:      #87afd7
+! == URxvt settings
+URxvt.loginShell:        true
+URxvt.scrollTtyOutput:   false
+URxvt.scrollTtyKeypress: true
+URxvt.scrollWithBuffer:  true
+URxvt.urgentOnBell:      true
+URxvt.saveLines:         65535
+URxvt.scrollBar:         false
+URxvt.cursorBlink:       false
+URxvt.secondaryScreen:   true
+URxvt.secondaryScroll:   true
+URxvt.depth:             32
+URxvt.fading:            10
 
-URxvt.perl-ext-common:          default,matcher,-selection
-URxvt.urlLauncher:              /etc/alternatives/google-chrome
-URxvt.matcher.button:           1
-URxvt.matcher.pattern:          ~?([a-z_][a-z0-9_]{0,30})?/([^\0\n\ !$`&*()+]|\\\ )+\b/?
+! fonts
+URxvt.font:              xft:Monospace:pixelsize=22,xft:Inconsolata for Powerline:pixelsize=22
+URxvt.cursorColor:       #DCDCCC
+! turn off double-buffering for xft (slight perf. impr.)
+URxvt.buffered:          false
 
-URxvt*font:                     xft:Monospace:pixelsize=22,xft:Inconsolata for Powerline:pixelsize=22:antialias=true
-URxvt*boldFont:                 xft:Monospace:pixelsize=22,xft:Inconsolata Bold for Powerline:pixelsize=22:antialias=true
-URxvt.cursorColor:              #DCDCCC
+URxvt.keysym.C-S-Tab:    33[27;5;9~
+URxvt.keysym.M-Down:     \033[1;3B
+URxvt.keysym.M-Up:       \033[1;3A
+URxvt.keysym.M-Left:     \033[1;3D
+URxvt.keysym.M-Right:    \033[1;3C
 
-URxvt.loginShell:               true
-URxvt.urgentOnBell:             true
-URxvt.saveLines:                65535
-URxvt.scrollBar:                false
-URxvt.cursorBlink:              false
-URxvt.secondaryScroll:          true
-URxvt.geometry:                 80x25
-URxvt.buffered:                 false
-
-URxvt.keysym.C-Up:     perl:font-size:increase
-URxvt.keysym.C-Down:   perl:font-size:decrease
-URxvt.keysym.C-S-Up:   perl:font-size:incglobal
-URxvt.keysym.C-S-Down: perl:font-size:decglobal
-URxvt.keysym.C-equal:  perl:font-size:reset
-URxvt.keysym.C-slash:  perl:font-size:show
+! extensions
+URxvt.perl-ext-common:      default,font-size,url-select
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.C-equal:       perl:font-size:increase
+URxvt.url-select.launcher:  /usr/bin/xdg-open
+URxvt.url-select.underline: true
