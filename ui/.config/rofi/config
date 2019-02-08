@@ -6,3 +6,7 @@ rofi.padding: 30
 rofi.lines: 6
 rofi.width: 30
 rofi.font: Terminus 18
+
+rofi.color-enabled: true
+rofi.color-window: argb:bb3f3f3f, argb:cc2f343f, argb:cc2f343f
+rofi.color-normal: argb:002f343f, #afafaf, argb:002f343f, argb:002f343f, #ffffff
