@@ -1,0 +1,20 @@
+#!/bin/sh
+[ -d .git ] && {
+  git diff --quiet || echo "Uncommited changes, not checked in to index";
+  git diff --staged --quiet || echo "Checked in to index but not commited";
+  git log --color=always \
+    --no-merges --format="%C(auto,yellow)%h%C(auto,magenta)%  %C(auto,green)%<(12,trunc)%cn %C(auto,reset)%s%C(auto,red)% gD% D"; } |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --preview 'f() {
+            set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}\|Uncommited\|Checked")
+            if [ $# -ne 0 ]; then
+                if [ $1 = "Uncommited" ]; then
+                    git diff --color=always
+                elif [ $1 = "Checked" ]; then
+                    git diff --color=always --staged
+                else
+                    git show --color=always $1
+                fi
+            fi
+        }; f {}' \
+      -x | awk '{ print $1 }'
