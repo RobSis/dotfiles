@@ -9,7 +9,6 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-
 " look & feel
 syntax on
 set timeoutlen=50 ttimeoutlen=0
@@ -21,6 +20,7 @@ set autoindent smartindent
 set showmode
 set listchars=tab:▸\ ,trail:·
 set list
+set shortmess=I
 
 set incsearch
 set ignorecase
@@ -31,20 +31,25 @@ set hlsearch
 set laststatus=2
 set noshowmode
 
-colorscheme desert
-if has('gui_running')
-"  colorscheme wombat
-  set guioptions=
-endif
+colorscheme darcula
 
+" vim-plug
+call plug#begin('~/.vim/vim-plugs')
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
+call plug#end()
 
-" pathogen
-execute pathogen#infect()
+let g:airline_theme='distinguished'
+let g:airline_powerline_fonts = 1
+map <c-t> :FZF!<cr>
 
 set tags+=.git/tags
 
 command! Hi80 highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
-
 
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -86,13 +91,6 @@ inoremap <C-BS> <C-\><C-o>db
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-
-" https://github.com/kien/rainbow_parentheses.vim
-autocmd VimEnter * RainbowParenthesesToggle
-autocmd Syntax * RainbowParenthesesLoadRound
-autocmd Syntax * RainbowParenthesesLoadSquare
-autocmd Syntax * RainbowParenthesesLoadBraces
-autocmd VimEnter * wincmd w
 
 syntax match csvHeading /\%1l\%(\%("\zs\%([^"]\|""\)*\ze"\)\|\%(\zs[^,"]*\ze\)\)/
 highlight def link csvHeading Type
