@@ -40,12 +40,17 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 let g:airline_theme='distinguished'
 let g:airline_powerline_fonts = 1
 map <c-t> :FZF!<cr>
+
+function! s:goyo_enter()
+    set showmode
+endfunction
+autocmd! User GoyoEnter call <SID>goyo_enter()
 
 set tags+=.git/tags
 
@@ -60,7 +65,6 @@ endfun
 
 if has('autocmd')
   "autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim )
-
   filetype plugin indent on
   au BufNewFile,BufRead *.ftl set filetype=html
   au BufNewFile,BufRead *.xml set filetype=xml
