@@ -1,7 +1,5 @@
 ! == color theme
-#include "/home/rsiska/.xthemes/solarized"
-
-! Xft.dpi: 192
+#include "/home/rsiska/.dynamic-colors/colorschemes/darcula"
 
 ! == URxvt settings
 URxvt.loginShell:        true
@@ -15,10 +13,11 @@ URxvt.cursorBlink:       false
 URxvt.secondaryScreen:   true
 URxvt.secondaryScroll:   true
 URxvt.depth:             32
-URxvt.fading:            10
+!URxvt.fading:            10
+URxvt.dynamicColors:     on
 
 ! fonts
-URxvt.font:              xft:Monospace:pixelsize=22,xft:Inconsolata for Powerline:pixelsize=22
+URxvt.font:              xft:Monospace:pixelsize=24,xft:Inconsolata for Powerline:pixelsize=24
 URxvt.cursorColor:       #DCDCCC
 ! turn off double-buffering for xft (slight perf. impr.)
 URxvt.buffered:          false
@@ -30,8 +29,9 @@ URxvt.keysym.M-Left:     \033[1;3D
 URxvt.keysym.M-Right:    \033[1;3C
 
 ! extensions
-URxvt.perl-ext-common:      default,font-size,url-select
+URxvt.perl-ext-common:      default,font-size,url-select,dynamic-colors
 URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.F12:           perl:dynamic-colors:cycle
 URxvt.keysym.C-equal:       perl:font-size:increase
-URxvt.url-select.launcher:  /usr/bin/xdg-open
+URxvt.font-size.step:       4
 URxvt.url-select.underline: true
