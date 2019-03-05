@@ -4,3 +4,6 @@
 [submodule "ui/.dynamic-colors"]
 	path = ui/.dynamic-colors
 	url = https://github.com/hellricer/dynamic-colors
+[submodule "shells/.zsh/antigen"]
+	path = shells/.zsh/antigen
+	url = https://github.com/zsh-users/antigen.git

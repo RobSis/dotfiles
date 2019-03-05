@@ -1,0 +1,91 @@
+# ~/.shrc: shell-independent configuration
+# vim: filetype=sh
+
+# Disable START/STOP flow control
+stty -ixon -ixoff
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# aliases
+alias g="git"
+alias v="vim -p"
+alias o="xdg-open"
+alias rm="rm -i"
+alias mv="mv -i"
+alias cp="cp -i"
+alias xi="xclip -i"
+alias xo="xclip -o"
+alias pxi="echo -n \'$PWD\' | xclip -i"
+alias tree="tree -C"
+alias dtrx="dtrx -n"
+alias trim="sed 's/^\ *//' | sed 's/\ *$//'"
+alias mkdir="mkdir -p"
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# debian
+alias as='apt-cache search'
+alias ai='sudo apt install'
+alias ar='sudo apt remove'
+
+# ls after cd
+function cd() {
+    builtin cd "$@" && ls --color=auto && tmux rename-window "${PWD##*/}";
+}
+
+# music-related
+alias mp3-dl='youtube-dl -x --audio-format mp3 --audio-quality 0'
+alias mp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do mp3-dl "$line"; echo "Finished."; sleep 5s; done;'
+alias tmp3-dl='torify youtube-dl -x --audio-format mp3 --audio-quality 0'
+alias tmp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do tmp3-dl "$line"; echo "Finished."; sleep 5s; done;'
+alias mostsampled='(){ grep -i "$1" ~/samples/originals| sort -n }'
+alias whosampled='(){ grep -i "$1" ~/samples/whosampled.csv }'
+playtime() {
+    date -u -d @$(sox --i -D $@ 2>/dev/null | awk '{s+=$1} END {print s}') +"%T";
+}
+
+# colors
+[ -e "$HOME/.dircolors" ] && DIR_COLORS="$HOME/.dircolors"
+[ -e "$DIR_COLORS" ] || DIR_COLORS=""
+eval "`dircolors -b $DIR_COLORS`"
+
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+
+export PAGER=less
+man-color() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;34m") \
+        LESS_TERMCAP_md=$(printf "\e[1;34m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            /usr/bin/man "$@"
+}
+alias man="man-color"
+
+ping() { grc /bin/ping "$@"; }
+df() { grc /bin/df "$@"; }
+
+# Usage: command | hl <language>
+hl() {
+    default="bash"
+    if [ -n "$1" ]; then
+        default=$1
+    fi
+    source-highlight -f esc -s $default
+}
+
+if [ -r "~/.shrc-magnolia" ]; then
+    source "~/.shrc-magnolia"
+fi
+
+if [ -r "/usr/share/autojump/autojump.sh" ]; then
+    source "/usr/share/autojump/autojump.sh"
+fi
