@@ -1,11 +1,11 @@
-#include "/usr/share/rofi/themes//glue_pro_blue.theme"
+# vim: filetype=xdefaults
 
 rofi.separator-style: solid
 rofi.hide-scrollbar: true
 rofi.padding: 30
 rofi.lines: 6
 rofi.width: 30
-rofi.font: Terminus 18
+rofi.font: Monospace 18
 
 rofi.color-enabled: true
 rofi.color-window: argb:bb3f3f3f, argb:cc2f343f, argb:cc2f343f
