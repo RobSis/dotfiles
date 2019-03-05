@@ -1,9 +1,9 @@
-[submodule "ui/.dynamic-colors"]
-	path = ui/.dynamic-colors
-	url = https://github.com/hellricer/dynamic-colors
 [submodule "shells/.zsh/antigen"]
 	path = shells/.zsh/antigen
 	url = https://github.com/zsh-users/antigen.git
 [submodule "awesome/.config/awesome/lain"]
 	path = awesome/.config/awesome/lain
 	url = https://github.com/lcpz/lain
+[submodule "Xdefaults/.dynamic-colors"]
+	path = Xdefaults/.dynamic-colors
+	url = https://github.com/hellricer/dynamic-colors
