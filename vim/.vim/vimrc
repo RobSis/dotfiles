@@ -25,6 +25,7 @@ set shortmess=I
 set incsearch
 set ignorecase
 set smartcase
+
 set hlsearch
 
 " statusline
@@ -32,6 +33,9 @@ set laststatus=2
 set noshowmode
 
 colorscheme darcula
+if &diff
+    colorscheme vimdiff
+endif
 
 " vim-plug
 call plug#begin('~/.vim/vim-plugs')
