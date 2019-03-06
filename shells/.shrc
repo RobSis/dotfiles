@@ -11,6 +11,7 @@ stty -ixon -ixoff
 alias g="git"
 alias v="vim -p"
 alias o="xdg-open"
+alias la="ls -a"
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
@@ -35,6 +36,14 @@ alias ar='sudo apt remove'
 # ls after cd
 function cd() {
     builtin cd "$@" && ls --color=auto && tmux rename-window "${PWD##*/}";
+}
+
+# fzf interface to lpass
+function flp() {
+    lpass show -c --password $(lpass ls |\
+        fzf --reverse | \
+        awk '{print $(NF)}' | \
+        sed 's/\]//g');
 }
 
 # music-related
@@ -82,8 +91,8 @@ hl() {
     source-highlight -f esc -s $default
 }
 
-if [ -r "~/.shrc-magnolia" ]; then
-    source "~/.shrc-magnolia"
+if [ -r "$HOME/.shrc-work" ]; then
+    source "$HOME/.shrc-work"
 fi
 
 if [ -r "/usr/share/autojump/autojump.sh" ]; then
