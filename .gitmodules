@@ -7,3 +7,9 @@
 [submodule "Xdefaults/.dynamic-colors"]
 	path = Xdefaults/.dynamic-colors
 	url = https://github.com/hellricer/dynamic-colors
+[submodule "awesome/.config/awesome/handy"]
+	path = awesome/.config/awesome/handy
+	url = https://github.com/crater2150/awesome-handy
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
