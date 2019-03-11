@@ -30,3 +30,7 @@ fi
 if [ -f "/etc/bash_completion" ]; then
     source "/etc/bash_completion"
 fi
+
+if [ -f "$HOME/.fzf.bash" ]; then
+    source ~/.fzf.bash
+fi
