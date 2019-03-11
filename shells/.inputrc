@@ -1,7 +1,29 @@
 $include /etc/inputrc
 
-set show-all-if-ambiguous on
+### ctrl+arrows
+# xterm, gnome-terminal, terminator, st, sakura, termit, ...
+# Also, if you use tmux, you can put
+# set-window-option -g xterm-keys on`
+# in your ~/.tmux.conf and then don't bother
+# with differences between terminals.
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+# urxvt
+"\eOc": forward-word
+"\eOd": backward-word
 
-# alt+arrows
+### ctrl+delete
+"\e[3;5~": kill-word
+# in this case, stterm misbehaves (even in tmux)
+"\e[M": kill-word
+# and of course, urxvt must be always special
+"\e[3^": kill-word
+
+### ctrl+backspace
+# no incompabilities? impossible!
+"\C-h": backward-kill-word
+
+### alt+arrows
+# ...if you still want to keep these guys for nostagic reasons
 "\e[1;3D": backward-word
 "\e[1;3C": forward-word

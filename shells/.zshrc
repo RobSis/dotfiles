@@ -7,17 +7,31 @@ fpath=($fpath ~/.zsh/completions)
 # Use emacs keybindings
 bindkey -e
 
-# alt + arrows
 export WORDCHARS='*?[]~=&;!#$%^(){}'
-#urxvt
-bindkey "^[^[[D" backward-word
-bindkey "^[^[[C" forward-word
-#tmux
-bindkey "\e\eOD" backward-word
-bindkey "\e\eOC" forward-word
-#xterm
-bindkey "\e[1;3C" forward-word
-bindkey "\e[1;3D" backward-word
+
+### alt+arrows
+# xterm
+#bindkey "\e[1;3C" forward-word
+#bindkey "\e[1;3D" backward-word
+## urxvt
+#bindkey "\e\e[C" forward-word
+#bindkey "\e\e[D" backward-word
+
+### ctrl+arrows
+# xterm (and others)
+bindkey "\e[1;5C" forward-word
+bindkey "\e[1;5D" backward-word
+# urxvt
+bindkey "\eOc" forward-word
+bindkey "\eOd" backward-word
+
+### ctrl+backspace
+bindkey '^H' backward-kill-word
+
+### ctrl+delete
+# xterm (and others)
+bindkey "\e[3;5~" kill-word
+bindkey "\e[3^" kill-word
 
 bindkey '^[;' copy-prev-shell-word
 
