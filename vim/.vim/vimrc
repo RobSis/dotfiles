@@ -1,3 +1,13 @@
+" vim-plug
+call plug#begin('~/.vim/vim-plugs')
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'alvan/vim-closetag'
+call plug#end()
 
 " mouse stuff
 set mouse=a
@@ -20,60 +30,49 @@ set autoindent smartindent
 set showmode
 set listchars=tab:▸\ ,trail:·
 set list
-set shortmess=I
+set shortmess+=I
 
 set incsearch
 set ignorecase
 set smartcase
-
 set hlsearch
 
 " statusline
 set laststatus=2
 set noshowmode
 
+set tags+=.git/tags
+
 colorscheme darcula
 if &diff
     colorscheme vimdiff
 endif
 
-" vim-plug
-call plug#begin('~/.vim/vim-plugs')
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
-call plug#end()
-
-let g:airline_theme='distinguished'
+let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
-map <c-t> :FZF!<cr>
 
 function! s:goyo_enter()
     set showmode
 endfunction
 autocmd! User GoyoEnter call <SID>goyo_enter()
 
-set tags+=.git/tags
-
 command! Hi80 highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
 
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
+" Sort words on line
+command -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
 
 if has('autocmd')
-  "autocmd FileType c,cpp,java,python,lua,xml,ftl,quakec,vim )
+  fun! <SID>StripTrailingWhitespaces()
+      let l = line(".")
+      let c = col(".")
+      %s/\s\+$//e
+      call cursor(l, c)
+  endfun
+
   filetype plugin indent on
   au BufNewFile,BufRead *.ftl set filetype=html
-  au BufNewFile,BufRead *.xml set filetype=xml
-  au BufNewFile,BufRead *.py Hi80
-  au BufNewFile,BufRead *.qc set filetype=quakec
+  au BufNewFile,BufRead *.py,*.sh Hi80
+  au BufWritePre * call <SID>StripTrailingWhitespaces()
 
   autocmd BufWritePost *
     \ if filereadable('tags') |
@@ -86,10 +85,6 @@ noremap K :tabnext<CR>
 nnoremap J :tabprevious<CR>
 
 set pastetoggle=<F2>
-"nnoremap <F2> :set invpaste paste?<CR>
-
-map <Esc>s :w<CR>
-imap <Esc>s  <C-O>:w<CR>
 
 nmap ZA :qall!<CR>
 
@@ -100,8 +95,4 @@ inoremap <C-BS> <C-\><C-o>db
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-syntax match csvHeading /\%1l\%(\%("\zs\%([^"]\|""\)*\ze"\)\|\%(\zs[^,"]*\ze\)\)/
-highlight def link csvHeading Type
-
-" Sort words on line
-command -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
+map <c-t> :FZF<cr>
