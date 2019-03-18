@@ -70,7 +70,8 @@ if has('autocmd')
   endfun
 
   filetype plugin indent on
-  au BufNewFile,BufRead *.ftl set filetype=html
+  au BufNewFile,BufRead *.ftl set syntax=xml
+  au BufNewFile,BufRead *.html set syntax=xml
   au BufNewFile,BufRead *.py,*.sh Hi80
   au BufWritePre * call <SID>StripTrailingWhitespaces()
 
@@ -79,6 +80,20 @@ if has('autocmd')
     \   call system('ctags -a '.expand('%')) |
     \ endif
 endif
+
+" Smart pane switching with awareness of tmux splits.
+function! TmuxMove(direction)
+        let wnr = winnr()
+        silent! execute 'wincmd ' . a:direction
+        " If the winnr is still the same after we moved, it is the last pane
+        if wnr == winnr()
+                call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
+        end
+endfunction
+nnoremap <silent> <c-w>h :call TmuxMove('h')<cr>
+nnoremap <silent> <c-w>j :call TmuxMove('j')<cr>
+nnoremap <silent> <c-w>k :call TmuxMove('k')<cr>
+nnoremap <silent> <c-w>l :call TmuxMove('l')<cr>
 
 " mappings
 noremap K :tabnext<CR>
