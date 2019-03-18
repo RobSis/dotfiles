@@ -27,7 +27,7 @@ local function toggle()
     wibox.visible = not wibox.visible
 
     if wibox.visible then
-        awful.spawn(string.format("screenkey --geometry %dx%d+%d+%d --opacity 0 --no-systray",
+        awful.spawn(string.format("/home/rsiska/.local/bin/screenkey --geometry %dx%d+%d+%d --opacity 0 --no-systray",
             wibox.width, wibox.height, wibox.x, wibox.y))
     else
         awful.spawn("pkill -f screenkey")
