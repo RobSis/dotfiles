@@ -1,5 +1,5 @@
 ! color theme
-#include ".dynamic-colors/colorschemes/darcula"
+#include ".dynamic-colors/colorschemes/idea"
 
 ! DPI/font
 Xft.dpi: 192
@@ -9,11 +9,11 @@ Xft.hinting: true
 Xft.hintstyle: hintslight
 Xft.rgba: rgb
 
-XTerm*faceName:          xft:Monospace:pixelsize=24,xft:Inconsolata for Powerline:pixelsize=24
+XTerm*faceName:          xft:DejaVu Sans Mono:pixelsize=24,xft:Inconsolata for Powerline:pixelsize=25
 XTerm.vt100.metaSendsEscape: true
 
 ! urxvt
-URxvt*font:              xft:Monospace:pixelsize=24,xft:Inconsolata for Powerline:pixelsize=24
+URxvt*font:              xft:DejaVu Sans Mono:pixelsize=24,xft:Inconsolata for Powerline:pixelsize=25
 URxvt.loginShell:        true
 URxvt.scrollTtyOutput:   false
 URxvt.scrollTtyKeypress: true
