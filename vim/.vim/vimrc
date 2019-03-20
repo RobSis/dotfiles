@@ -5,41 +5,43 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'roxma/vim-tmux-clipboard'
 Plug 'tpope/vim-fugitive'
-Plug 'alvan/vim-closetag'
 call plug#end()
 
-" mouse stuff
-set mouse=a
-set clipboard=unnamed,unnamedplus
+" look & feel
+syntax on
+set background=dark
+set number
+set relativenumber
+set autoindent smartindent
+set listchars=tab:▸\ ,trail:·
+set list
+set shortmess+=I
 
-" tab stuff
+" tabs
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-" look & feel
-syntax on
-set timeoutlen=50 ttimeoutlen=0
-set background=dark
-set number
-set relativenumber
-set showmatch
-set autoindent smartindent
-set showmode
-set listchars=tab:▸\ ,trail:·
-set list
-set shortmess+=I
-
-set incsearch
-set ignorecase
-set smartcase
-set hlsearch
-
 " statusline
 set laststatus=2
 set noshowmode
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set showmatch
+
+"set clipboard=unnamed,unnamedplus
+" Work-around for tmux+vim slow-start problem (vim 8.??)
+" Run with vim -X and uncomment this line:
+autocmd TextYankPost * call system('xclip -sel primary', @0)
+
+" mouse support
+set mouse=a
 
 set tags+=.git/tags
 
@@ -81,7 +83,7 @@ if has('autocmd')
     \ endif
 endif
 
-" Smart pane switching with awareness of tmux splits.
+" Seamless integration with tmux-splits.
 function! TmuxMove(direction)
         let wnr = winnr()
         silent! execute 'wincmd ' . a:direction
@@ -95,17 +97,17 @@ nnoremap <silent> <c-w>j :call TmuxMove('j')<cr>
 nnoremap <silent> <c-w>k :call TmuxMove('k')<cr>
 nnoremap <silent> <c-w>l :call TmuxMove('l')<cr>
 
-" mappings
-noremap K :tabnext<CR>
-nnoremap J :tabprevious<CR>
-
-set pastetoggle=<F2>
-
-nmap ZA :qall!<CR>
+set timeoutlen=50 ttimeoutlen=0
+" modern backspace & delete
+set backspace=indent,eol,start
 
 " more readline-like kill word
 inoremap <C-w> <C-\><C-o>dB
 inoremap <C-BS> <C-\><C-o>db
+
+set pastetoggle=<F2>
+
+nmap ZA :qall!<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
