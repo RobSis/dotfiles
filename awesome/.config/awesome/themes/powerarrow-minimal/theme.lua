@@ -5,27 +5,31 @@ local wibox = require("wibox")
 local os    = { getenv = os.getenv }
 
 local theme                     = {}
+
 theme.dir                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-minimal"
+
 theme.font                      = "DejaVu Sans 9"
 theme.monofont                  = "DejaVu Sans Mono 8"
-theme.fg_normal                 = "#999999"
-theme.fg_focus                  = "#dddddd"
+
+theme.fg_normal                 = "#aaaaaa"
+theme.fg_focus                  = "#eeeeee"
 theme.fg_urgent                 = "#FFAF5F"
-theme.bg_normal                 = "#1A1A1A"
-theme.bg_normal_light           = "#444444"
-theme.bg_focus                  = "#1A1A1A"
-theme.bg_urgent                 = "#1A1A1A"
-theme.menu_height               = 28
+theme.bg_normal                 = "#2b2b2b"
+theme.bg_focus                  = theme.bg_normal
+theme.bg_urgent                 = theme.bg_normal
+theme.bg_segment                = "#444444"
+theme.border_normal             = "#3F3F3F"
+theme.border_focus              = "#7F7F7F"
+theme.border_marked             = "#CC9393"
+
+theme.menu_height               = 30
 theme.useless_gap               = 0
 theme.gap_single_client         = false
 theme.border_width              = 1
 theme.master_width_factor       = 0.6
-theme.border_normal             = "#3F3F3F"
-theme.border_focus              = "#7F7F7F"
-theme.border_marked             = "#CC9393"
-theme.tasklist_bg_focus         = "#1A1A1A"
-theme.taglist_fg_focus          = "#DDDDDD"
-theme.taglist_bg_focus          = "#1A1A1A"
+theme.tasklist_plain_task_name  = true
+theme.tasklist_disable_icon     = true
+
 theme.taglist_squares_sel       = theme.dir .. "/icons/square_sel.png"
 theme.taglist_squares_unsel     = theme.dir .. "/icons/square_unsel.png"
 theme.layout_tile               = theme.dir .. "/icons/tile.png"
@@ -51,18 +55,18 @@ theme.widget_vol                = theme.dir .. "/icons/vol.png"
 theme.widget_vol_low            = theme.dir .. "/icons/vol_low.png"
 theme.widget_vol_no             = theme.dir .. "/icons/vol_no.png"
 theme.widget_vol_mute           = theme.dir .. "/icons/vol_mute.png"
-theme.tasklist_plain_task_name  = true
-theme.tasklist_disable_icon     = true
 
+--
+-- Widgets
+--
 local markup = lain.util.markup
 
 -- Separators
 local separators = lain.util.separators
-theme.spr     = wibox.widget.textbox(' ')
-theme.arrl_dl = separators.arrow_left(theme.bg_normal_light, "alpha")
-theme.arrl_ld = separators.arrow_left("alpha", theme.bg_normal_light)
-theme.arrr_dl = separators.arrow_right(theme.bg_normal_light, "alpha")
-theme.arrr_ld = separators.arrow_right("alpha", theme.bg_normal_light)
+theme.arrl_dl = separators.arrow_left(theme.bg_segment, "alpha")
+theme.arrl_ld = separators.arrow_left("alpha", theme.bg_segment)
+theme.arrr_dl = separators.arrow_right(theme.bg_segment, "alpha")
+theme.arrr_ld = separators.arrow_right("alpha", theme.bg_segment)
 
 -- Textclock
 theme.clock = awful.widget.watch(
@@ -153,26 +157,5 @@ theme.vol = lain.widget.alsa({
             end)))
     end
 })
-
--- TODO: cmus widget
-theme.cmus, cmus_timer = awful.widget.watch(
-    "cmus-remote -Q",
-    2,
-    function(widget, stdout)
-        local cmus_now = {
-            status   = "N/A",
-            artist  = "N/A",
-            title   = "N/A",
-            album   = "N/A"
-        }
-
-        for w in string.gmatch(stdout, "(.-)tag") do
-            a, b = w:match("(%w+) (.-)\n")
-            cmus_now[a] = b
-        end
-
-        widget:set_text(cmus_now.artist .. " - " .. cmus_now.title)
-    end
-)
 
 return theme

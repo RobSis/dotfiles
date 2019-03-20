@@ -9,6 +9,7 @@ local lain          = require("lain")
 local keydoc        = require("keydoc")
 local handy         = require("handy")
 local screenkey     = require("screenkey")
+local hints         = require("hints")
 
 -- Variables
 local modkey         = "Mod4"
@@ -24,10 +25,10 @@ local volume_control = "pavucontrol"
 
 -- Layouts
 awful.layout.layouts = {
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
     awful.layout.suit.tile,
-    awful.layout.suit.tile.top,
+    awful.layout.suit.tile.bottom,
+    --awful.layout.suit.tile,
+    --awful.layout.suit.tile.top,
 }
 
 -- Tags
@@ -50,7 +51,9 @@ local set_wallpaper = function()
 end
 
 run_once({"unclutter -root"})
+run_once({"xbindkeys"})
 run_once({"compton"})
+run_once({"volnoti -t 2 -a 0.4 -r 0"})
 run_once({"urxvtd"})
 run_once({"redshift -l 49:16"})
 
@@ -99,6 +102,9 @@ clientbuttons = awful.util.table.join(
 
 -- Load theme
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), theme))
+hints.init()
+
+-- Widgets
 
 -- Init UI
 awful.screen.connect_for_each_screen(function(s)
@@ -135,31 +141,28 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-                wibox.container.background(s.mylayoutbox, beautiful.bg_normal_light),
-                beautiful.arrr_dl,
-            s.mytaglist,
-            s.mypromptbox,
-                beautiful.spr,
+                wibox.container.background(s.mylayoutbox, beautiful.bg_segment),
+            beautiful.arrr_dl,
+                s.mytaglist,
+                s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
                 beautiful.arrl_ld,
-            wibox.container.background(beautiful.vol_icon, beautiful.bg_normal_light),
-            wibox.container.background(beautiful.vol.widget, beautiful.bg_normal_light),
                 beautiful.arrl_dl,
             beautiful.mem_icon,
             beautiful.mem.widget,
                 beautiful.arrl_ld,
-            wibox.container.background(beautiful.cpu_icon, beautiful.bg_normal_light),
-            wibox.container.background(beautiful.cpu.widget, beautiful.bg_normal_light),
+            wibox.container.background(beautiful.cpu_icon, beautiful.bg_segment),
+            wibox.container.background(beautiful.cpu.widget, beautiful.bg_segment),
                 beautiful.arrl_dl,
             beautiful.temp_icon,
             beautiful.temp.widget,
                 beautiful.arrl_ld,
-            wibox.container.background(beautiful.bat_icon, beautiful.bg_normal_light),
-            wibox.container.background(beautiful.bat.widget, beautiful.bg_normal_light),
+            wibox.container.background(beautiful.bat_icon, beautiful.bg_segment),
+            wibox.container.background(beautiful.bat.widget, beautiful.bg_segment),
                 beautiful.arrl_dl,
             beautiful.clock,
         },
@@ -249,9 +252,8 @@ globalkeys = awful.util.table.join(
             "toggle quick terminal"),
     awful.key({ modkey }, "b", function () screenkey.toggle() end,
             "show/hide screenkey"),
-
-    -- General
     keydoc.group("Awesome"),
+    awful.key({ modkey }, "v", function () hints.focus() end),
     awful.key({ modkey }, "i", keydoc.display,
             "show help"),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -351,34 +353,6 @@ globalkeys = awful.util.table.join(
             end
         end,
             "go to previous client"),
-
-    -- FIXME: maybe this shouldn't be managed by WM...
-    -- ALSA volume control
-    awful.key({}, "#123",
-        function ()
-            os.execute(string.format("amixer -q set %s 5%%+", beautiful.vol.channel))
-            beautiful.vol.update()
-        end),
-    awful.key({}, "#122",
-        function ()
-            os.execute(string.format("amixer -q set %s 5%%-", beautiful.vol.channel))
-            beautiful.vol.update()
-        end),
-    awful.key({}, "#121",
-        function ()
-            os.execute(string.format("amixer -q set %s toggle", beautiful.vol.togglechannel or beautiful.vol.channel))
-            beautiful.vol.update()
-        end),
-
-    -- Brightness control
-    awful.key({}, "#232",
-        function ()
-            os.execute("~/.local/bin/brightness dec 100")
-        end),
-    awful.key({}, "#233",
-        function ()
-            os.execute("~/.local/bin/brightness inc 100")
-        end),
 
     keydoc.group("Tags"),
     awful.key({ modkey }, "Escape", awful.tag.history.restore,
