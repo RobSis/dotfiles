@@ -1,23 +1,37 @@
-" vim-plug
-call plug#begin('~/.vim/vim-plugs')
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'roxma/vim-tmux-clipboard'
-Plug 'tpope/vim-fugitive'
-call plug#end()
+let mapleader=","
+set ttimeoutlen=50
 
-" look & feel
+" syntax highlighting
 syntax on
-set background=dark
+
+" line numbering
 set number
 set relativenumber
-set autoindent smartindent
-set listchars=tab:▸\ ,trail:·
+set numberwidth=5
+
+" show tabs and trailing spaces
 set list
+set listchars=tab:▸\ ,trail:·
+
+" hide splash-screen
 set shortmess+=I
+" hide | char in vsplit
+:set fillchars+=vert:\ 
+
+" line break at white-space
+set linebreak
+
+" indenting
+set autoindent smartindent
+
+" more bash-like tab completion
+if has("wildmenu")
+    set wildmenu
+    set wildmode=longest,list
+endif
+
+" disable swap files
+set noswapfile
 
 " tabs
 set tabstop=4
@@ -29,40 +43,50 @@ set expandtab
 set laststatus=2
 set noshowmode
 
+" search
 set ignorecase
 set smartcase
 set incsearch
 set hlsearch
 set showmatch
 
-"set clipboard=unnamed,unnamedplus
-" Work-around for tmux+vim slow-start problem (vim 8.??)
-" Run with vim -X and uncomment this line:
-autocmd TextYankPost * call system('xclip -sel primary', @0)
-
 " mouse support
 set mouse=a
 
-set tags+=.git/tags
+" Plugins
+call plug#begin('~/.vim/vim-plugs')
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'vimwiki/vimwiki'
+    Plug 'vim-scripts/java_fold'
+    Plug 'gcavallanti/vim-noscrollbar'
+call plug#end()
 
 colorscheme darcula
 if &diff
     colorscheme vimdiff
 endif
 
-let g:airline_theme='minimalist'
+let g:airline_theme="minimalist"
 let g:airline_powerline_fonts = 1
 
-function! s:goyo_enter()
-    set showmode
+function! Noscrollbar(...)
+    "let w:airline_section_z = '%{noscrollbar#statusline(15,"-","=")}'
+    let w:airline_section_z = '%{noscrollbar#statusline(15,"─","━",["╼"],["╾"])}'
 endfunction
-autocmd! User GoyoEnter call <SID>goyo_enter()
+call airline#add_statusline_func('Noscrollbar')
 
-command! Hi80 highlight OverLength ctermbg=red ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
+command! Hi80 highlight OverLength ctermbg=darkgrey ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
 
 " Sort words on line
 command -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
 
+" FIXME: don't trim escaped spaces!
 if has('autocmd')
   fun! <SID>StripTrailingWhitespaces()
       let l = line(".")
@@ -71,11 +95,19 @@ if has('autocmd')
       call cursor(l, c)
   endfun
 
+  "set clipboard=unnamed,unnamedplus
+  " Work-around for tmux+vim slow-start problem (vim 8.??)
+  " Run with vim -X and uncomment this line:
+  autocmd TextYankPost * call system('xclip -sel primary', @0)
+
   filetype plugin indent on
-  au BufNewFile,BufRead *.ftl set syntax=xml
-  au BufNewFile,BufRead *.html set syntax=xml
+  au BufNewFile,BufRead *.ftl,*.html,*.latte set syntax=xml
   au BufNewFile,BufRead *.py,*.sh Hi80
-  au BufWritePre * call <SID>StripTrailingWhitespaces()
+  au BufNewFile,BufRead *.vifm set syntax=vim
+  "au BufWritePre * call <SID>StripTrailingWhitespaces()
+
+  " auto-close fugitive buffers
+  autocmd BufReadPost fugitive://* set bufhidden=delete
 
   autocmd BufWritePost *
     \ if filereadable('tags') |
@@ -87,7 +119,8 @@ endif
 function! TmuxMove(direction)
         let wnr = winnr()
         silent! execute 'wincmd ' . a:direction
-        " If the winnr is still the same after we moved, it is the last pane
+        " If the winnr is still the same after we moved, it is the last pane.
+        " In that case, switch to tmux pane in that direction.
         if wnr == winnr()
                 call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
         end
@@ -97,19 +130,35 @@ nnoremap <silent> <c-w>j :call TmuxMove('j')<cr>
 nnoremap <silent> <c-w>k :call TmuxMove('k')<cr>
 nnoremap <silent> <c-w>l :call TmuxMove('l')<cr>
 
-set timeoutlen=50 ttimeoutlen=0
 " modern backspace & delete
 set backspace=indent,eol,start
 
 " more readline-like kill word
 inoremap <C-w> <C-\><C-o>dB
-inoremap <C-BS> <C-\><C-o>db
+imap <C-h> <C-w>
+
+" ctrl+left/right in insert mode (in tmux)
+map <ESC>[1;5D <C-Left>
+map <ESC>[1;5C <C-Right>
+
+" dont scroll after eof
+map <silent> <PageUp> 1000<C-U>
+map <silent> <PageDown> 1000<C-D>
+imap <silent> <PageUp> <C-O>1000<C-U>
+imap <silent> <PageDown> <C-O>1000<C-D>
+map <ScrollWheelUp> H3k
+map <ScrollWheelDown> L3j
+
+nnoremap Y y$
 
 set pastetoggle=<F2>
 
-nmap ZA :qall!<CR>
+nmap ZA :wqall!<CR>
+nmap ZQA :qall!<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-map <c-t> :FZF<cr>
+map <Leader>rf :Buffers<cr>
+
+map <Leader>ff :FZF<cr>
