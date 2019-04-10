@@ -1,12 +1,18 @@
 # vim: filetype=xdefaults
 
-rofi.separator-style: solid
+rofi.separator-style: none
 rofi.hide-scrollbar: true
-rofi.padding: 30
+rofi.padding: 50
 rofi.lines: 6
 rofi.width: 30
-rofi.font: Monospace 18
+rofi.font: DejaVu Sans Mono 18
 
 rofi.color-enabled: true
-rofi.color-window: argb:bb3f3f3f, argb:cc2f343f, argb:cc2f343f
-rofi.color-normal: argb:002f343f, #afafaf, argb:002f343f, argb:002f343f, #ffffff
+rofi.color-window: #ee3f3f3f, #dd3f3f3f
+rofi.color-normal: argb:0, #999999, argb:0, argb:0, #ffffff
+rofi.color-active: argb:0, #ffaf5f, argb:0, argb:0, #ffffff
+
+#rofi.color-window: #002b37, #002b37, #003642
+#rofi.color-normal: #002b37, #819396, #002b37, #003642, #819396
+#rofi.color-active: #002b37, #008ed4, #002b37, #003642, #008ed4
+#rofi.color-urgent: #002b37, #da4281, #002b37, #003642, #da4281
