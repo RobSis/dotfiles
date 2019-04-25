@@ -60,7 +60,7 @@ local function key2str(key)
     if not key.modifiers or #key.modifiers == 0 then return sym end
     local result = ""
     local translate = {
-        [modkey] = "⊞",
+        [modkey] = "",
         Shift    = "⇧",
         Control  = "^",
     }
@@ -151,14 +151,15 @@ function display()
         end
         if #result > 0 then result = result .. "\n" end
         local notification = naughty.notify({
-                screen      = 1,
-                timeout     = 0,
-                icon        = beautiful.help_icon,
-                font        = beautiful.monofont,
-                bg          = "#2b2b2baa",
-                text        = result,
-                ontop       = true,
-                replaces_id = nid })
+                screen       = 1,
+                timeout      = 0,
+                icon         = beautiful.help_icon,
+                font         = beautiful.monofont,
+                bg           = beautiful.notification_bg,
+                border_width = beautiful.notification_border_width,
+                text         = result,
+                ontop        = true,
+                replaces_id  = nid })
         nid = notification.id
 
         capi.keygrabber.run(function(_, key, event)

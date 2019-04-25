@@ -10,8 +10,8 @@
 
     bind to key:
         awful.key({ modkey }, "s", function () screenkey.toggle() end)
-
 --]]
+
 local awful = require("awful")
 
 -- wibox properties
