@@ -1,13 +1,18 @@
 let mapleader=","
-set ttimeoutlen=50
 
-" syntax highlighting
-syntax on
+set ttimeoutlen=50
+set nocompatible
 
 " line numbering
 set number
 set relativenumber
 set numberwidth=5
+
+" tabs
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
 
 " show tabs and trailing spaces
 set list
@@ -15,14 +20,18 @@ set listchars=tab:▸\ ,trail:·
 
 " hide splash-screen
 set shortmess+=I
+
 " hide | char in vsplit
-:set fillchars+=vert:\ 
+set fillchars+=vert:\ 
 
 " line break at white-space
 set linebreak
 
 " indenting
 set autoindent smartindent
+
+" better backspace & delete
+set backspace=indent,eol,start
 
 " more bash-like tab completion
 if has("wildmenu")
@@ -33,11 +42,11 @@ endif
 " disable swap files
 set noswapfile
 
-" tabs
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+" allow quit with hidden buffers
+set hidden
+
+" allow expr in modeline
+set modelineexpr
 
 " statusline
 set laststatus=2
@@ -50,115 +59,259 @@ set incsearch
 set hlsearch
 set showmatch
 
+" tmux-like splits
+set splitbelow
+set splitright
+nnoremap <c-w>" :split<CR>
+nnoremap <c-w>\| :vsplit<CR>
+
 " mouse support
 set mouse=a
-
-" Plugins
-call plug#begin('~/.vim/vim-plugs')
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-commentary'
-    Plug 'tpope/vim-surround'
-    Plug 'vimwiki/vimwiki'
-    Plug 'vim-scripts/java_fold'
-    Plug 'gcavallanti/vim-noscrollbar'
-call plug#end()
+set ttymouse=xterm2
 
 colorscheme darcula
 if &diff
     colorscheme vimdiff
 endif
 
+" Plugins
+call plug#begin('~/.vim/vim-plugs')
+    " Workflow
+    Plug 'junegunn/vim-peekaboo'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'dominickng/fzf-session.vim'
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'melonmanchan/vim-tmux-resizer'
+    Plug 'farmergreg/vim-lastplace'
+    Plug 'justinmk/vim-sneak'
+    " Eye-candy
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'gcavallanti/vim-noscrollbar'
+    Plug 'junegunn/goyo.vim'
+    Plug 'martinda/Jenkinsfile-vim-syntax'
+    " Programming
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'w0rp/ale'
+    " Python
+    Plug 'davidhalter/jedi-vim'
+    Plug 'leafgarland/typescript-vim'
+    " Integrations
+    Plug 'plasticboy/vim-markdown'
+    Plug 'vimwiki/vimwiki'
+    Plug 'mattn/calendar-vim'
+    Plug 'reedes/vim-pencil'
+    " Plug 'paulkass/jira-vim'
+call plug#end()
+
+" vimwiki config
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                     \ 'syntax': 'markdown', 'ext': '.md'}]
+hi VimwikiHeader1 ctermfg=51
+hi VimwikiHeader2 ctermfg=6
+hi VimwikiHeaderChar ctermfg=8
+
+" w0rp/ale config
+"nmap <silent> [e <Plug>(ale_previous_wrap)
+"nmap <silent> ]e <Plug>(ale_next_wrap)
+
+" davidhalter/jedi config
+let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#show_call_signatures = "2"
+autocmd FileType python setlocal completeopt-=preview
+
+" paulkass/jira-vim config
+" let g:jiraVimDomainName = "https://jira.magnolia-cms.com"
+" let g:jiraVimEmail = "robert.siska@magnolia-cms.com"
+" let g:jiraVimToken = "aqSPcncoEqCZj0ZCK0ZNF8C3"
+
+" vim-airline/vim-airline config
 let g:airline_theme="minimalist"
 let g:airline_powerline_fonts = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:ale_set_quickfix = 1
+
+highlight ALEErrorSign ctermfg=red ctermbg=236
+highlight ALEWarningSign ctermfg=green ctermbg=236
 
 function! Noscrollbar(...)
-    "let w:airline_section_z = '%{noscrollbar#statusline(15,"-","=")}'
-    let w:airline_section_z = '%{noscrollbar#statusline(15,"─","━",["╼"],["╾"])}'
+    let w:airline_section_x = '%{noscrollbar#statusline(15,"─","━",["╼"],["╾"])}'
 endfunction
 call airline#add_statusline_func('Noscrollbar')
 
+" christoomey/vim-tmux-navigator config
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
+nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
+nnoremap <silent> <c-w>l :TmuxNavigateRight<cr>
+
+" melonmanchan/vim-tmux-resizer config
+let g:tmux_resizer_no_mappings = 1
+nnoremap <silent> <c-w>H :TmuxResizeLeft<cr>
+nnoremap <silent> <c-w>J :TmuxResizeDown<cr>
+nnoremap <silent> <c-w>K :TmuxResizeUp<cr>
+nnoremap <silent> <c-w>L :TmuxResizeRight<cr>
+
+" dominickng/fzf-session config
+let g:fzf_session_path = '~/.vim/sessions/'
+
 command! Hi80 highlight OverLength ctermbg=darkgrey ctermfg=white guibg=#592929 | match OverLength /\%81v.\+/
 
-" Sort words on line
-command -nargs=0 -range SortLine <line1>,<line2>call setline('.',join(sort(split(getline('.'),' ')),' '))
-
-" FIXME: don't trim escaped spaces!
 if has('autocmd')
-  fun! <SID>StripTrailingWhitespaces()
-      let l = line(".")
-      let c = col(".")
-      %s/\s\+$//e
-      call cursor(l, c)
-  endfun
-
-  "set clipboard=unnamed,unnamedplus
-  " Work-around for tmux+vim slow-start problem (vim 8.??)
-  " Run with vim -X and uncomment this line:
-  autocmd TextYankPost * call system('xclip -sel primary', @0)
-
   filetype plugin indent on
-  au BufNewFile,BufRead *.ftl,*.html,*.latte set syntax=xml
-  au BufNewFile,BufRead *.py,*.sh Hi80
-  au BufNewFile,BufRead *.vifm set syntax=vim
+endif
+
+"set clipboard=unnamed,unnamedplus
+" Work-around for tmux+vim slow-start problem (needs vim>8.??)
+" Run with vim -X and uncomment this line:
+autocmd! TextYankPost * call system('xclip -selection primary', @0)
+
+augroup programming_language_awareness
+  autocmd!
+  autocmd BufNewFile,BufRead *.ftl,*.html,*.latte set syntax=xml
+  autocmd BufNewFile,BufRead *.py,*.sh Hi80
+  autocmd BufNewFile,BufRead *.vifm set syntax=vim
   "au BufWritePre * call <SID>StripTrailingWhitespaces()
+augroup END
 
-  " auto-close fugitive buffers
+augroup autoclose_fugitve_buffers
+  autocmd!
   autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
 
+augroup ctags
+  autocmd!
   autocmd BufWritePost *
     \ if filereadable('tags') |
     \   call system('ctags -a '.expand('%')) |
     \ endif
-endif
+augroup END
 
-" Seamless integration with tmux-splits.
-function! TmuxMove(direction)
-        let wnr = winnr()
-        silent! execute 'wincmd ' . a:direction
-        " If the winnr is still the same after we moved, it is the last pane.
-        " In that case, switch to tmux pane in that direction.
-        if wnr == winnr()
-                call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
-        end
-endfunction
-nnoremap <silent> <c-w>h :call TmuxMove('h')<cr>
-nnoremap <silent> <c-w>j :call TmuxMove('j')<cr>
-nnoremap <silent> <c-w>k :call TmuxMove('k')<cr>
-nnoremap <silent> <c-w>l :call TmuxMove('l')<cr>
-
-" modern backspace & delete
-set backspace=indent,eol,start
+"augroup autoleave_insertmode
+"    " set 'updatetime' to 15 seconds when in insert mode
+"    au! InsertEnter * let updaterestore=&updatetime | set updatetime=15000
+"    au! InsertLeave * let &updatetime=updaterestore
+"    au! CursorHoldI * stopinsert
+"augroup END
 
 " more readline-like kill word
 inoremap <C-w> <C-\><C-o>dB
 imap <C-h> <C-w>
 
-" ctrl+left/right in insert mode (in tmux)
-map <ESC>[1;5D <C-Left>
-map <ESC>[1;5C <C-Right>
+" noob-mode: ctrl+left/right anywhere
+nmap <ESC>[1;5D <C-Left>
+nmap <ESC>[1;5C <C-Right>
+nmap <C-h> <C-w>
+cmap <ESC>[1;5D <C-Left>
+cmap <ESC>[1;5C <C-Right>
+cmap <C-h> <C-w>
+imap <ESC>[1;5D <C-o><C-Left>
+imap <ESC>[1;5C <C-o><C-Right>
+imap <C-h> <C-w>
+
+" arrows scroll the buffer
+nmap <Down> <c-e>
+nmap <Up> <c-y>
+nmap <Left> zh
+nmap <Right> zl
 
 " dont scroll after eof
 map <silent> <PageUp> 1000<C-U>
 map <silent> <PageDown> 1000<C-D>
 imap <silent> <PageUp> <C-O>1000<C-U>
 imap <silent> <PageDown> <C-O>1000<C-D>
-map <ScrollWheelUp> H3k
-map <ScrollWheelDown> L3j
+
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+map <silent> <Leader>zo :ZoomToggle<CR>
+
+" Render markdown with grip
+function Grip_func()
+    :cd %:p:h
+    :terminal ++rows=7 ++norestore marge %:t
+    :wincmd p
+endfunction
+command! Grip call Grip_func()
 
 nnoremap Y y$
 
 set pastetoggle=<F2>
 
-nmap ZA :wqall!<CR>
-nmap ZQA :qall!<CR>
+nmap ZZ :wqall!<CR>
+nmap ZQ :qall!<CR>
 
-" Allow saving of files as sudo when I forgot to start vim using sudo.
+" Allow saving of read-only files when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-map <Leader>rf :Buffers<cr>
+" Sort words on line
+command -nargs=0 -range SortLine
+  \ <line1>,<line2>call
+  \ setline('.',join(sort(split(getline('.'),' ')),' '))
 
+function! ToggleCalendar()
+  execute ":Calendar"
+  if exists("g:calendar_open")
+    if g:calendar_open == 1
+      execute "q"
+      unlet g:calendar_open
+    else
+      g:calendar_open = 1
+    end
+  else
+    let g:calendar_open = 1
+  end
+endfunction
+
+" FIXME: don't trim escaped spaces!
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+
+" quick command-line access
+nmap ; :
+
+" fzf-powered commands
+command! Oldfiles call fzf#run({
+            \ 'source':  v:oldfiles,
+            \ 'sink':    'e',
+            \ 'options': '-m -x +s',
+            \ 'down':    '30%'})
+
+" recent files
+map <Leader>rf :Buffers<cr>
+" find files
 map <Leader>ff :FZF<cr>
+" old files
+map <Leader>of :Oldfiles<cr>
+" load session
+map <Leader>ls :Sessions<cr>
+
+" augroup XML
+"     autocmd!
+"     autocmd FileType xml let g:xml_syntax_folding=1
+"     autocmd FileType xml setlocal foldmethod=syntax
+"     autocmd FileType xml :syntax on
+"     autocmd FileType xml :%foldopen!
+" augroup END
+"
+map <C-l> :Goyo \| Goyo \| redraw<cr>
+set nofoldenable
