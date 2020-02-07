@@ -7,9 +7,11 @@ stty -ixon -ixoff
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# YoU CaN CoPy-PasTE OuTpUT SaFEly.. thanks a lot Pádraig :(
+export QUOTING_STYLE=literal
+
 # aliases
 alias g="git"
-alias v="vim -p"
 alias o="xdg-open"
 alias la="ls -a"
 alias rm="rm -i"
@@ -19,14 +21,14 @@ alias xi="xclip -i"
 alias xo="xclip -o"
 alias pxi="echo -n \$PWD | xclip -i"
 alias tree="tree -C"
-alias dtrx="dtrx -n"
 alias trim="sed 's/^\ *//' | sed 's/\ *$//'"
 alias mkdir="mkdir -p"
+alias dtrx="dtrx -n"
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
+alias ct='cursedtag'
+alias vf='vifm .'
+alias fd='fdfind'
+alias rg='rg --smart-case'
 
 # debian
 alias as='apt-cache search'
@@ -34,25 +36,37 @@ alias ai='sudo apt install'
 alias ar='sudo apt remove'
 
 # ls after cd
-function cd() {
-    builtin cd "$@" && ls --color=auto && tmux rename-window "${PWD##*/}";
+cd () {
+    builtin cd "$@" && ls --color=auto
 }
 
+# cd up to ancestor with given name
+cdu () { cd "${PWD%/$1/*}/$1" || exit; }
+
+# move under given under directory, mkdir it if not existing
+mmv () { mkdir -p "$2" && mv "$1" "$2"; }
+
 # fzf interface to lpass
-function flp() {
-    lpass show -c --password $(lpass ls |\
+flp () {
+    lpass show --password "$(lpass ls |\
         fzf --reverse | \
-        awk '{print $(NF)}' | \
-        sed 's/\]//g');
+        awk '{printf "%s",$(NF)}' | \
+        sed 's/\]//g')" | \
+        xclip -i -selection primary
 }
 
 # music-related
+alias ncmpcpp='tmux set status off; ncmpcpp; tmux set status on'
 alias mp3-dl='youtube-dl -x --audio-format mp3 --audio-quality 0'
 alias mp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do mp3-dl "$line"; echo "Finished."; sleep 5s; done;'
 alias tmp3-dl='torify youtube-dl -x --audio-format mp3 --audio-quality 0'
 alias tmp3-dl-queue='tmux-pane-rename "$(basename $PWD)"; cat | while read line; do tmp3-dl "$line"; echo "Finished."; sleep 5s; done;'
-alias mostsampled='(){ grep -i "$1" ~/samples/originals| sort -n }'
-alias whosampled='(){ grep -i "$1" ~/samples/whosampled.csv }'
+mostsampled () {
+    grep -i "$1" ~/whosampled/originals | sort -rn
+}
+whosampled () {
+    grep -i "$1" ~/whosampled/samples.csv
+}
 playtime() {
     date -u -d @$(sox --i -D $@ 2>/dev/null | awk '{s+=$1} END {print s}') +"%T";
 }
@@ -60,41 +74,37 @@ playtime() {
 # colors
 [ -e "$HOME/.dircolors" ] && DIR_COLORS="$HOME/.dircolors"
 [ -e "$DIR_COLORS" ] || DIR_COLORS=""
-eval "`dircolors -b $DIR_COLORS`"
+eval "$(dircolors -b $DIR_COLORS)"
 
-alias ls="ls --color=auto"
+alias ls="ls --color=auto --group-directories-first"
 alias grep="grep --color=auto"
+alias ncdu='ncdu --color dark'
 
 export PAGER=less
-man-color() {
+man_color() {
     env \
-        LESS_TERMCAP_mb=$(printf "\e[1;34m") \
-        LESS_TERMCAP_md=$(printf "\e[1;34m") \
-        LESS_TERMCAP_me=$(printf "\e[0m") \
-        LESS_TERMCAP_se=$(printf "\e[0m") \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-        LESS_TERMCAP_ue=$(printf "\e[0m") \
-        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+        LESS_TERMCAP_mb="$(printf "\e[1;34m")" \
+        LESS_TERMCAP_md="$(printf "\e[1;34m")" \
+        LESS_TERMCAP_me="$(printf "\e[0m")" \
+        LESS_TERMCAP_se="$(printf "\e[0m")" \
+        LESS_TERMCAP_so="$(printf "\e[1;44;33m")" \
+        LESS_TERMCAP_ue="$(printf "\e[0m")" \
+        LESS_TERMCAP_us="$(printf "\e[1;32m")" \
             /usr/bin/man "$@"
 }
-alias man="man-color"
+alias man="man_color"
 
 ping() { grc /bin/ping "$@"; }
-df() { grc /bin/df "$@"; }
-
-# Usage: command | hl <language>
-hl() {
-    default="bash"
-    if [ -n "$1" ]; then
-        default=$1
-    fi
-    source-highlight -f esc -s $default
-}
+df() { grc /bin/df -h "$@"; }
 
 if [ -r "$HOME/.shrc-work" ]; then
-    source "$HOME/.shrc-work"
+    . "$HOME/.shrc-work"
 fi
 
 if [ -r "/usr/share/autojump/autojump.sh" ]; then
-    source "/usr/share/autojump/autojump.sh"
+    . "/usr/share/autojump/autojump.sh"
 fi
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

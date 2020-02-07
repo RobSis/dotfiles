@@ -23,7 +23,6 @@ $include /etc/inputrc
 # no incompabilities? impossible!
 "\C-h": backward-kill-word
 
-### alt+arrows
-# ...if you still want to keep these guys for nostagic reasons
-"\e[1;3D": backward-word
-"\e[1;3C": forward-word
+### ctrl+shift+delete
+"\e[3;6~": kill-line
+# st sends same sequence as plain delete :(
