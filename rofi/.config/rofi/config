@@ -1,16 +1,18 @@
 # vim: filetype=xdefaults
 
+# TODO: should get from Xft.dpi
+rofi.dpi: 192
 rofi.separator-style: none
 rofi.hide-scrollbar: true
 rofi.padding: 50
 rofi.lines: 6
 rofi.width: 30
-rofi.font: DejaVu Sans Mono 18
+rofi.font: DejaVu Sans Mono 9
 
 rofi.color-enabled: true
 rofi.color-window: #ee3f3f3f, #dd3f3f3f
-rofi.color-normal: argb:0, #999999, argb:0, argb:0, #ffffff
-rofi.color-active: argb:0, #ffaf5f, argb:0, argb:0, #ffffff
+rofi.color-normal: 0, #999999, 0, 0, #ffffff
+rofi.color-active: 0, #ffaf5f, 0, 0, #ffffff
 
 #rofi.color-window: #002b37, #002b37, #003642
 #rofi.color-normal: #002b37, #819396, #002b37, #003642, #819396
