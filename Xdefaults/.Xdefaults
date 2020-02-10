@@ -30,9 +30,9 @@ URxvt.buffered:          false
 URxvt.dynamicColors:     on
 
 ! extensions
-URxvt.perl-ext-common:      default,font-size,url-select,dynamic-colors
-URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.perl-ext-common:      default,resize-font,dynamic-colors
 URxvt.keysym.F12:           perl:dynamic-colors:cycle
-URxvt.keysym.C-equal:       perl:font-size:increase
+URxvt.keysym.C-equal:       resize-font:bigger
+URxvt.keysym.C-minus:       resize-font:smaller
+URxvt.keysym.C-0:           resize-font:reset
 URxvt.font-size.step:       4
-URxvt.url-select.underline: true
